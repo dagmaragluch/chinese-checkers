@@ -3,13 +3,8 @@ public class Plansza {
     private final int rzedy = 33;
     private final int kol = 25;
 
-    private int[][] plansza = new int[rzedy][kol];    //int czy char??
+    private int[][] plansza = new int[rzedy][kol];
 
-    public static void main(String[] args){
-
-        Plansza plansza = new Plansza();
-        plansza.uzupelnianie_planszy();
-    }
 
     public void uzupelnianie_planszy() {
         for (int i = 0; i < rzedy; i++) {
@@ -59,7 +54,6 @@ public class Plansza {
         plansza[26][15] = 0;
 
 
-
         for (int i = 0; i < rzedy; i++) {
             for (int j = 0; j < kol; j++) {
                 System.out.print(plansza[i][j]);
@@ -68,4 +62,27 @@ public class Plansza {
         }
     }
 
+
+    int getZawartoscTablicy(int x, int y){
+        return plansza[x][y];
+    }
+
+    int getZawartoscTablicyOdParyWspolrzednych(ParaWspolrzednych paraWspolrzednych){
+        return plansza[paraWspolrzednych.getY()][paraWspolrzednych.getY()];
+    }
+
+    void setZawartoscTablicyOdParyWspolrzednych(ParaWspolrzednych paraWspolrzednych, int NaCoZmieniamy){
+        //if(getZawartoscTablicy(ParaWspolrzednych paraWspolrzednych)!=9)   //jakieś zabezpieczenie dodać żeby nie dało się zmienić pól z 9
+        plansza[paraWspolrzednych.getX()][paraWspolrzednych.getY()] = NaCoZmieniamy;
+    }
+
+    void setZawartoscTablicyOdInt(int x, int y, int NaCoZmieniamy){
+        if(plansza[x][y] == 9 ) {  // zabezpieczenie żeby nie dało się zmienić pól z 9
+            plansza[x][y] = NaCoZmieniamy;
+        }
+
+    }
+
+
 }
+
