@@ -5,10 +5,7 @@ public class PoczatkoweUstawienia extends Plansza {
 
     public void poczatkoweUstawienia() {
 
-        //Plansza plansza = new Plansza();
-
-
-        int iluGraczy = 2;
+        int iluGraczy = 6;
 
         ArrayList<ParaWspolrzednych> wierzcholek1 = new ArrayList<>();
         ArrayList<ParaWspolrzednych> wierzcholek2 = new ArrayList<>();
@@ -85,68 +82,113 @@ public class PoczatkoweUstawienia extends Plansza {
         wierzcholek6.add(new ParaWspolrzednych(14, 3));
 
 
-
-    uzupelnianie_planszy();
+        uzupelnianie_planszy();
 
         switch (iluGraczy) {
 
             case 2:
-                  //tworzenie 2 graczy z uzupełnionymi arraylistami pionkow
+                //tworzenie 2 graczy z uzupełnionymi arraylistami pionkow
+
+                ArrayList<ParaWspolrzednych> pionki1 = new ArrayList<>();
+                ArrayList<ParaWspolrzednych> pionki2 = new ArrayList<>();
+
                 for (int i = 0; i < wierzcholek1.size(); i++) {
-                  setZawartoscTablicyOdInt(wierzcholek1.get(i).getX(), wierzcholek1.get(i).getY(), 1);
-                  setZawartoscTablicyOdInt(wierzcholek4.get(i).getX(), wierzcholek4.get(i).getY(), 2);
-                }
+                    setZawartoscTablicyOdInt(wierzcholek1.get(i).getX(), wierzcholek1.get(i).getY(), 1);
+                    setZawartoscTablicyOdInt(wierzcholek4.get(i).getX(), wierzcholek4.get(i).getY(), 2);
 
-                ArrayList<ParaWspolrzednych> pionki1= new ArrayList<>();
-                for (int i = 0; i < wierzcholek1.size(); i++){
                     pionki1.add(wierzcholek1.get(i));
+                    pionki2.add(wierzcholek4.get(i));
                 }
-                Gracz gracz1 = new Gracz(1, pionki1 );
 
-                ArrayList<ParaWspolrzednych> pionki2= new ArrayList<>();
-                for (int i = 0; i < wierzcholek4.size(); i++){
-                    pionki2.add(wierzcholek1.get(i));
-                }
-                Gracz gracz2 = new Gracz(2, pionki2 );
-
+                Gracz gracz1 = new Gracz(1, pionki1);
+                Gracz gracz2 = new Gracz(2, pionki2);
 
                 break;
-//
-//            case 3:
-//                for (int i = 0; i < wierzcholek1.size(); i++) {
-//                    plansza[wierzcholek1.get(i).getX()][wierzcholek1.get(i).getY()] = 1;
-//                    plansza[wierzcholek3.get(i).getX()][wierzcholek3.get(i).getY()] = 2;
-//                    plansza[wierzcholek5.get(i).getX()][wierzcholek5.get(i).getY()] = 3;
-//                }
-//                break;
-//
-//            case 4:
-//                for (int i = 0; i < wierzcholek1.size(); i++) {
-//                    plansza[wierzcholek1.get(i).getX()][wierzcholek1.get(i).getY()] = 1;
-//                    plansza[wierzcholek3.get(i).getX()][wierzcholek3.get(i).getY()] = 2;
-//                    plansza[wierzcholek4.get(i).getX()][wierzcholek4.get(i).getY()] = 3;
-//                    plansza[wierzcholek6.get(i).getX()][wierzcholek6.get(i).getY()] = 4;
-//                }
-//                break;
-//
-//            case 6:
-//                for (int i = 0; i < wierzcholek1.size(); i++) {
-//                    plansza[wierzcholek1.get(i).getX()][wierzcholek1.get(i).getY()] = 1;
-//                    plansza[wierzcholek2.get(i).getX()][wierzcholek2.get(i).getY()] = 2;
-//                    plansza[wierzcholek3.get(i).getX()][wierzcholek3.get(i).getY()] = 3;
-//                    plansza[wierzcholek4.get(i).getX()][wierzcholek4.get(i).getY()] = 4;
-//                    plansza[wierzcholek5.get(i).getX()][wierzcholek5.get(i).getY()] = 5;
-//                    plansza[wierzcholek6.get(i).getX()][wierzcholek6.get(i).getY()] = 6;
 
-             //       System.out.println("KSDNJFKJSBCVKSBSD MFLKWEN");
+            case 3:
+                pionki1 = new ArrayList<>();
+                pionki2 = new ArrayList<>();
+                ArrayList<ParaWspolrzednych> pionki3 = new ArrayList<>();
 
-              //  }
+                for (int i = 0; i < wierzcholek1.size(); i++) {
+                    setZawartoscTablicyOdInt(wierzcholek1.get(i).getX(), wierzcholek1.get(i).getY(), 1);
+                    setZawartoscTablicyOdInt(wierzcholek3.get(i).getX(), wierzcholek3.get(i).getY(), 2);
+                    setZawartoscTablicyOdInt(wierzcholek5.get(i).getX(), wierzcholek5.get(i).getY(), 3);
 
+                    pionki1.add(wierzcholek1.get(i));
+                    pionki2.add(wierzcholek3.get(i));
+                    pionki3.add(wierzcholek5.get(i));
+                }
 
+                gracz1 = new Gracz(1, pionki1);
+                gracz2 = new Gracz(2, pionki2);
+                Gracz gracz3 = new Gracz(3, pionki3);
+
+                break;
+
+            case 4:
+
+                pionki1 = new ArrayList<>();
+                pionki2 = new ArrayList<>();
+                pionki3 = new ArrayList<>();
+                ArrayList<ParaWspolrzednych> pionki4 = new ArrayList<>();
+
+                for (int i = 0; i < wierzcholek1.size(); i++) {
+                    setZawartoscTablicyOdInt(wierzcholek1.get(i).getX(), wierzcholek1.get(i).getY(), 1);
+                    setZawartoscTablicyOdInt(wierzcholek3.get(i).getX(), wierzcholek3.get(i).getY(), 2);
+                    setZawartoscTablicyOdInt(wierzcholek4.get(i).getX(), wierzcholek4.get(i).getY(), 3);
+                    setZawartoscTablicyOdInt(wierzcholek6.get(i).getX(), wierzcholek6.get(i).getY(), 4);
+
+                    pionki1.add(wierzcholek1.get(i));
+                    pionki2.add(wierzcholek3.get(i));
+                    pionki3.add(wierzcholek4.get(i));
+                    pionki4.add(wierzcholek6.get(i));
+                }
+
+                gracz1 = new Gracz(1, pionki1);
+                gracz2 = new Gracz(2, pionki2);
+                gracz3 = new Gracz(3, pionki3);
+                Gracz gracz4 = new Gracz(4, pionki4);
+
+                break;
+
+            case 6:
+
+                pionki1 = new ArrayList<>();
+                pionki2 = new ArrayList<>();
+                pionki3 = new ArrayList<>();
+                pionki4 = new ArrayList<>();
+                ArrayList<ParaWspolrzednych> pionki5 = new ArrayList<>();
+                ArrayList<ParaWspolrzednych> pionki6 = new ArrayList<>();
+
+                for (int i = 0; i < wierzcholek1.size(); i++) {
+                    setZawartoscTablicyOdInt(wierzcholek1.get(i).getX(), wierzcholek1.get(i).getY(), 1);
+                    setZawartoscTablicyOdInt(wierzcholek2.get(i).getX(), wierzcholek2.get(i).getY(), 2);
+                    setZawartoscTablicyOdInt(wierzcholek3.get(i).getX(), wierzcholek3.get(i).getY(), 3);
+                    setZawartoscTablicyOdInt(wierzcholek4.get(i).getX(), wierzcholek4.get(i).getY(), 4);
+                    setZawartoscTablicyOdInt(wierzcholek5.get(i).getX(), wierzcholek5.get(i).getY(), 5);
+                    setZawartoscTablicyOdInt(wierzcholek6.get(i).getX(), wierzcholek6.get(i).getY(), 6);
+
+                    pionki1.add(wierzcholek1.get(i));
+                    pionki2.add(wierzcholek2.get(i));
+                    pionki3.add(wierzcholek3.get(i));
+                    pionki4.add(wierzcholek4.get(i));
+                    pionki5.add(wierzcholek5.get(i));
+                    pionki6.add(wierzcholek6.get(i));
+                }
+
+                gracz1 = new Gracz(1, pionki1);
+                gracz2 = new Gracz(2, pionki2);
+                gracz3 = new Gracz(3, pionki3);
+                gracz4 = new Gracz(4, pionki4);
+                Gracz gracz5 = new Gracz(5, pionki5);
+                Gracz gracz6 = new Gracz(6, pionki6);
+
+                break;
 
         }
-
 
     }
 
 }
+
