@@ -77,7 +77,7 @@ public class Plansza {
     }
 
     void setZawartoscTablicyOdInt(int x, int y, int NaCoZmieniamy){
-        if(plansza[x][y] == 9 ) {  // zabezpieczenie żeby nie dało się zmienić pól z 9
+        if(plansza[x][y] != 9 ) {  // zabezpieczenie żeby nie dało się zmienić pól z 9
             plansza[x][y] = NaCoZmieniamy;
         }
 
