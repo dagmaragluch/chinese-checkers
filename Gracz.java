@@ -9,4 +9,8 @@ public class Gracz {
         this.kolorGracza = kolorGracza;
         this.listaPionkow = listaPionkow;
     }
+
+    public int getKolorGracza() {
+        return kolorGracza;
+    }
 }
