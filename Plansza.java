@@ -1,88 +1,68 @@
-public class Plansza {
+public class Plansza{
 
-    private final int rzedy = 33;
-    private final int kol = 25;
+    private final int rzedy = 17;
+    private final int kolumny = 25;
 
-    private int[][] plansza = new int[rzedy][kol];
+    public Pole[][] tablica;
 
 
-    public void uzupelnianie_planszy() {
-        for (int i = 0; i < rzedy; i++) {
-            for (int j = 0; j < kol; j++) {
-                plansza[i][j] = 9;
-            }
+    Plansza() {
+    	tablica = new Pole[rzedy][kolumny];
+        
+        tablica[0][12] = new Pole(0);
+        tablica[1][11] = new Pole(0);
+        tablica[1][13] = new Pole(0);
+        tablica[2][10] = new Pole(0);
+        tablica[2][12] = new Pole(0);
+        tablica[2][14] = new Pole(0);
+        tablica[3][9] = new Pole(0);
+        tablica[3][11] = new Pole(0);
+        tablica[3][13] = new Pole(0);
+        tablica[3][15] = new Pole(0);
+
+        for(int k=0; k < kolumny; k=k+2){
+            tablica[4][k] = new Pole(0);
+            tablica[12][k] = new Pole(0);
         }
-
-        plansza[0][12] = 0;
-        plansza[2][11] = 0;
-        plansza[2][13] = 0;
-        plansza[4][10] = 0;
-        plansza[4][12] = 0;
-        plansza[4][14] = 0;
-        plansza[6][9] = 0;
-        plansza[6][11] = 0;
-        plansza[6][13] = 0;
-        plansza[6][15] = 0;
-
-        for(int k=0; k < kol; k=k+2){
-            plansza[8][k] = 0;
-            plansza[24][k] = 0;
+        for(int k=1; k < kolumny; k=k+2){
+            tablica[5][k] = new Pole(0);
+            tablica[11][k] = new Pole(0);
         }
-        for(int k=1; k < kol; k=k+2){
-            plansza[10][k] = 0;
-            plansza[22][k] = 0;
+        for(int k=2; k < kolumny-2; k=k+2){
+            tablica[6][k] = new Pole(0);
+            tablica[10][k] = new Pole(0);
         }
-        for(int k=2; k < kol-2; k=k+2){
-            plansza[12][k] = 0;
-            plansza[20][k] = 0;
+        for(int k=3; k < kolumny-2; k=k+2){
+            tablica[7][k] = new Pole(0);
+            tablica[9][k] = new Pole(0);
         }
-        for(int k=3; k < kol-2; k=k+2){
-            plansza[14][k] = 0;
-            plansza[18][k] = 0;
-        }
-        for(int k=4; k < kol-4; k=k+2) plansza[16][k] = 0;
+        for(int k=4; k < kolumny-4; k=k+2) tablica[8][k] = new Pole(0);
 
-        plansza[32][12] = 0;
-        plansza[30][11] = 0;
-        plansza[30][13] = 0;
-        plansza[28][10] = 0;
-        plansza[28][12] = 0;
-        plansza[28][14] = 0;
-        plansza[26][9] = 0;
-        plansza[26][11] = 0;
-        plansza[26][13] = 0;
-        plansza[26][15] = 0;
-
-
-        for (int i = 0; i < rzedy; i++) {
-            for (int j = 0; j < kol; j++) {
-                System.out.print(plansza[i][j]);
-            }
-            System.out.print("\n");
-        }
+        tablica[16][12] = new Pole(0);
+        tablica[15][11] = new Pole(0);
+        tablica[15][13] = new Pole(0);
+        tablica[14][10] = new Pole(0);
+        tablica[14][12] = new Pole(0);
+        tablica[14][14] = new Pole(0);
+        tablica[13][9] = new Pole(0);
+        tablica[13][11] = new Pole(0);
+        tablica[13][13] = new Pole(0);
+        tablica[13][15] = new Pole(0);
     }
 
 
-    int getZawartoscTablicy(int x, int y){
-        return plansza[x][y];
-    }
-
-    int getZawartoscTablicyOdParyWspolrzednych(ParaWspolrzednych paraWspolrzednych){
-        return plansza[paraWspolrzednych.getY()][paraWspolrzednych.getY()];
-    }
-
-    void setZawartoscTablicyOdParyWspolrzednych(ParaWspolrzednych paraWspolrzednych, int NaCoZmieniamy){
-        //if(getZawartoscTablicy(ParaWspolrzednych paraWspolrzednych)!=9)   //jakieś zabezpieczenie dodać żeby nie dało się zmienić pól z 9
-        plansza[paraWspolrzednych.getX()][paraWspolrzednych.getY()] = NaCoZmieniamy;
+    int getZawartoscTablicy(int x, int y) throws ArrayIndexOutOfBoundsException{
+    	int i=9;
+        try{
+        	if(tablica[x][y] != null ) i= tablica[x][y].getkolor();
+        } catch (ArrayIndexOutOfBoundsException e) {}
+    	return i;
     }
 
     void setZawartoscTablicyOdInt(int x, int y, int NaCoZmieniamy){
-        if(plansza[x][y] != 9 ) {  // zabezpieczenie żeby nie dało się zmienić pól z 9
-            plansza[x][y] = NaCoZmieniamy;
-        }
+        if(tablica[x][y] != null ) tablica[x][y].setkolor(NaCoZmieniamy);
+        else tablica[x][y]=new Pole(NaCoZmieniamy);
 
     }
 
-
 }
-
