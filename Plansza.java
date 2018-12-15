@@ -7,8 +7,8 @@ public class Plansza{
 
 
     Plansza() {
-    	tablica = new Pole[rzedy][kolumny];
-        
+        tablica = new Pole[rzedy][kolumny];
+
         tablica[0][12] = new Pole(0);
         tablica[1][11] = new Pole(0);
         tablica[1][13] = new Pole(0);
@@ -52,11 +52,11 @@ public class Plansza{
 
 
     int getZawartoscTablicy(int x, int y) throws ArrayIndexOutOfBoundsException{
-    	int i=9;
+        int i=9;
         try{
-        	if(tablica[x][y] != null ) i= tablica[x][y].getkolor();
+            if(tablica[x][y] != null ) i= tablica[x][y].getkolor();
         } catch (ArrayIndexOutOfBoundsException e) {}
-    	return i;
+        return i;
     }
 
     void setZawartoscTablicyOdInt(int x, int y, int NaCoZmieniamy){

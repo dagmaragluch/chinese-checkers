@@ -39,7 +39,6 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
     public void skonczylem() {
         tura++;
         czySkonczylem = true;
-        //czy_wygral();
     }
 
 
@@ -49,10 +48,10 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
 
         //while z breakiem żeby klikał w plansze tak długo aż kliknie w swój pionek
         while (czyja_tura().getKolorGracza() == getZawartoscTablicy(x1, y1)) {     //czy kliknal w pole ze swoim pionkiem
-            betaSerwer.gdzie_mozna_przesunac2(x1, y1);
+            betaSerwer.gdzie_mozna_przesunac(x1, y1);
             betaSerwer.gdzie_mozna_przeskoczyc(x1, y1);
 
-            while (betaSerwer.listaPodswietlanychPol2.contains(new ParaWspolrzednych(x2, y2))) {
+            while (betaSerwer.listaPodswietlanychPol.contains(new ParaWspolrzednych(x2, y2))) {
                 setZawartoscTablicyOdInt(x1, y1, 0);
                 setZawartoscTablicyOdInt(x2, y2, czyja_tura().getKolorGracza());
                 break;
@@ -70,12 +69,12 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
         int x1 = stara.getX();
         int y1 = stara.getY();
 
-         pamietanaParaWsp = new ParaWspolrzednych(x2, y2);
+        pamietanaParaWsp = new ParaWspolrzednych(x2, y2);
 
         while (czyja_tura().getKolorGracza() == getZawartoscTablicy(x1, y1)) {
             betaSerwer.gdzie_mozna_przeskoczyc(x1, y1);
 
-            while (betaSerwer.listaPodswietlanychPol2.contains(new ParaWspolrzednych(x2, y2))) {
+            while (betaSerwer.listaPodswietlanychPol.contains(new ParaWspolrzednych(x2, y2))) {
                 setZawartoscTablicyOdInt(x1, y1, 0);
                 setZawartoscTablicyOdInt(x2, y2, czyja_tura().getKolorGracza());
                 break;
@@ -89,19 +88,30 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
     @Override
     public void wykonaj_ruch() {
 
-        int liczbaPodruchow = 0;
-        czySkonczylem = false;
+        if (!aktualnyGracz.czyJuzWygral) {
+            int liczbaPodruchow = 0;
+            czySkonczylem = false;
 
-        while (!czySkonczylem) {
-            if (liczbaPodruchow == 0) {
-                //      wykonaj_pierwszy_podruch();       //trzeba dodać współrzędne z kliknięcia
-            } else {
-                //      wykonaj_zwykly_podruch();         //trzeba dodać współrzędne z kliknięcia
+            while (!czySkonczylem) {
+                if (liczbaPodruchow == 0) {
+                    //      wykonaj_pierwszy_podruch();       //trzeba dodać współrzędne z kliknięcia
+                } else {
+                    //      wykonaj_zwykly_podruch();         //trzeba dodać współrzędne z kliknięcia
+                }
+                liczbaPodruchow++;
             }
-            liczbaPodruchow++;
+            czy_wygral();
+        } else {
+            skonczylem();
         }
+    }
 
+    @Override
+    public void czy_wygral() {
 
+        if (aktualnyGracz.docelowyWierzcholek.equals(aktualnyGracz.listaPionkow)) { //trzeba doczytac czy w equals kolejność ma znaczenie
+            aktualnyGracz.czyJuzWygral = true;
+        }
     }
 
 

@@ -12,7 +12,7 @@ public interface MetodyDoGry {
 
     void wykonaj_ruch();
 
-    //boolean czy_wygral();
+    void czy_wygral();
 
 
 }

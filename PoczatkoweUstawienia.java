@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class PoczatkoweUstawienia extends Plansza {
 
-    final int iluGraczy;
+    int iluGraczy;
 
     protected Gracz gracz1;
     protected Gracz gracz2;
@@ -18,7 +18,7 @@ public class PoczatkoweUstawienia extends Plansza {
     private ArrayList<ParaWspolrzednych> wierzcholek5 = new ArrayList<>();
     private ArrayList<ParaWspolrzednych> wierzcholek6 = new ArrayList<>();
 
-
+    PoczatkoweUstawienia(){}
 
     PoczatkoweUstawienia(int a) {
 
@@ -113,8 +113,8 @@ public class PoczatkoweUstawienia extends Plansza {
                     wierzGracza2.add(wierzcholek1.get(i));
                 }
 
-                gracz1 = new Gracz(1, pionki1, wierzGracza1);
-                gracz2 = new Gracz(2, pionki2, wierzGracza2);
+                gracz1 = new Gracz(1, pionki1, wierzGracza1, false);
+                gracz2 = new Gracz(2, pionki2, wierzGracza2, false);
 
                 break;
 
@@ -141,9 +141,9 @@ public class PoczatkoweUstawienia extends Plansza {
 
                 }
 
-                gracz1 = new Gracz(1, pionki1, wierzGracza1);
-                gracz2 = new Gracz(2, pionki2, wierzGracza2);
-                gracz3 = new Gracz(3, pionki3, wierzGracza3);
+                gracz1 = new Gracz(1, pionki1, wierzGracza1, false);
+                gracz2 = new Gracz(2, pionki2, wierzGracza2, false);
+                gracz3 = new Gracz(3, pionki3, wierzGracza3, false);
 
                 break;
 
@@ -175,10 +175,10 @@ public class PoczatkoweUstawienia extends Plansza {
                     wierzGracza4.add(wierzcholek3.get(i));
                 }
 
-                gracz1 = new Gracz(1, pionki1, wierzGracza1);
-                gracz2 = new Gracz(2, pionki2, wierzGracza2);
-                gracz3 = new Gracz(3, pionki3, wierzGracza3);
-                gracz4 = new Gracz(4, pionki4, wierzGracza4);
+                gracz1 = new Gracz(1, pionki1, wierzGracza1, false);
+                gracz2 = new Gracz(2, pionki2, wierzGracza2, false);
+                gracz3 = new Gracz(3, pionki3, wierzGracza3, false);
+                gracz4 = new Gracz(4, pionki4, wierzGracza4, false);
 
                 break;
 
@@ -220,12 +220,12 @@ public class PoczatkoweUstawienia extends Plansza {
                     wierzGracza6.add(wierzcholek3.get(i));
                 }
 
-                gracz1 = new Gracz(1, pionki1, wierzGracza1);
-                gracz2 = new Gracz(2, pionki2, wierzGracza2);
-                gracz3 = new Gracz(3, pionki3, wierzGracza3);
-                gracz4 = new Gracz(4, pionki4, wierzGracza4);
-                gracz5 = new Gracz(5, pionki5, wierzGracza5);
-                gracz6 = new Gracz(6, pionki6, wierzGracza6);
+                gracz1 = new Gracz(1, pionki1, wierzGracza1, false);
+                gracz2 = new Gracz(2, pionki2, wierzGracza2, false);
+                gracz3 = new Gracz(3, pionki3, wierzGracza3, false);
+                gracz4 = new Gracz(4, pionki4, wierzGracza4, false);
+                gracz5 = new Gracz(5, pionki5, wierzGracza5, false);
+                gracz6 = new Gracz(6, pionki6, wierzGracza6, false);
 
                 break;
 
