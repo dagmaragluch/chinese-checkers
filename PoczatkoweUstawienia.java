@@ -1,11 +1,29 @@
 import java.util.ArrayList;
 
+import javafx.scene.layout.ColumnConstraints;
+
 public class PoczatkoweUstawienia extends Plansza {
+	
+	Plansza plansza;
 
+	static int iluGraczy;
+    Gracz gracz1;
+    protected Gracz gracz2;
+    protected Gracz gracz3;
+    protected Gracz gracz4;
+    protected Gracz gracz5;
+    protected Gracz gracz6;
 
-    public void poczatkoweUstawienia() {
-
-        int iluGraczy = 6;
+    ArrayList<ParaWspolrzednych> pionki1;
+    ArrayList<ParaWspolrzednych> pionki2;
+    ArrayList<ParaWspolrzednych> pionki3;
+    ArrayList<ParaWspolrzednych> pionki4;
+    ArrayList<ParaWspolrzednych> pionki5;
+    ArrayList<ParaWspolrzednych> pionki6;
+    
+    PoczatkoweUstawienia(int a) {
+    	
+    	iluGraczy = a;
 
         ArrayList<ParaWspolrzednych> wierzcholek1 = new ArrayList<>();
         ArrayList<ParaWspolrzednych> wierzcholek2 = new ArrayList<>();
@@ -16,81 +34,80 @@ public class PoczatkoweUstawienia extends Plansza {
 
 
         wierzcholek1.add(new ParaWspolrzednych(0, 12));
-        wierzcholek1.add(new ParaWspolrzednych(2, 11));
-        wierzcholek1.add(new ParaWspolrzednych(2, 13));
-        wierzcholek1.add(new ParaWspolrzednych(4, 10));
-        wierzcholek1.add(new ParaWspolrzednych(4, 12));
-        wierzcholek1.add(new ParaWspolrzednych(4, 14));
-        wierzcholek1.add(new ParaWspolrzednych(6, 9));
-        wierzcholek1.add(new ParaWspolrzednych(6, 11));
-        wierzcholek1.add(new ParaWspolrzednych(6, 13));
-        wierzcholek1.add(new ParaWspolrzednych(6, 15));
+        wierzcholek1.add(new ParaWspolrzednych(1, 11));
+        wierzcholek1.add(new ParaWspolrzednych(1, 13));
+        wierzcholek1.add(new ParaWspolrzednych(2, 10));
+        wierzcholek1.add(new ParaWspolrzednych(2, 12));
+        wierzcholek1.add(new ParaWspolrzednych(2, 14));
+        wierzcholek1.add(new ParaWspolrzednych(3, 9));
+        wierzcholek1.add(new ParaWspolrzednych(3, 11));
+        wierzcholek1.add(new ParaWspolrzednych(3, 13));
+        wierzcholek1.add(new ParaWspolrzednych(3, 15));
 
-        wierzcholek2.add(new ParaWspolrzednych(8, 18));
-        wierzcholek2.add(new ParaWspolrzednych(8, 20));
-        wierzcholek2.add(new ParaWspolrzednych(8, 22));
-        wierzcholek2.add(new ParaWspolrzednych(8, 24));
-        wierzcholek2.add(new ParaWspolrzednych(10, 19));
-        wierzcholek2.add(new ParaWspolrzednych(10, 21));
-        wierzcholek2.add(new ParaWspolrzednych(10, 23));
-        wierzcholek2.add(new ParaWspolrzednych(12, 20));
-        wierzcholek2.add(new ParaWspolrzednych(12, 22));
-        wierzcholek2.add(new ParaWspolrzednych(14, 21));
+        wierzcholek2.add(new ParaWspolrzednych(4, 18));
+        wierzcholek2.add(new ParaWspolrzednych(4, 20));
+        wierzcholek2.add(new ParaWspolrzednych(4, 22));
+        wierzcholek2.add(new ParaWspolrzednych(4, 24));
+        wierzcholek2.add(new ParaWspolrzednych(5, 19));
+        wierzcholek2.add(new ParaWspolrzednych(5, 21));
+        wierzcholek2.add(new ParaWspolrzednych(5, 23));
+        wierzcholek2.add(new ParaWspolrzednych(6, 20));
+        wierzcholek2.add(new ParaWspolrzednych(6, 22));
+        wierzcholek2.add(new ParaWspolrzednych(7, 21));
 
-        wierzcholek3.add(new ParaWspolrzednych(24, 18));
-        wierzcholek3.add(new ParaWspolrzednych(24, 20));
-        wierzcholek3.add(new ParaWspolrzednych(24, 22));
-        wierzcholek3.add(new ParaWspolrzednych(24, 24));
-        wierzcholek3.add(new ParaWspolrzednych(22, 19));
-        wierzcholek3.add(new ParaWspolrzednych(22, 21));
-        wierzcholek3.add(new ParaWspolrzednych(22, 23));
-        wierzcholek3.add(new ParaWspolrzednych(20, 20));
-        wierzcholek3.add(new ParaWspolrzednych(20, 22));
-        wierzcholek3.add(new ParaWspolrzednych(18, 21));
+        wierzcholek3.add(new ParaWspolrzednych(12, 18));
+        wierzcholek3.add(new ParaWspolrzednych(12, 20));
+        wierzcholek3.add(new ParaWspolrzednych(12, 22));
+        wierzcholek3.add(new ParaWspolrzednych(12, 24));
+        wierzcholek3.add(new ParaWspolrzednych(11, 19));
+        wierzcholek3.add(new ParaWspolrzednych(11, 21));
+        wierzcholek3.add(new ParaWspolrzednych(11, 23));
+        wierzcholek3.add(new ParaWspolrzednych(10, 20));
+        wierzcholek3.add(new ParaWspolrzednych(10, 22));
+        wierzcholek3.add(new ParaWspolrzednych(9, 21));
 
-        wierzcholek4.add(new ParaWspolrzednych(32, 12));
-        wierzcholek4.add(new ParaWspolrzednych(30, 11));
-        wierzcholek4.add(new ParaWspolrzednych(30, 13));
-        wierzcholek4.add(new ParaWspolrzednych(28, 10));
-        wierzcholek4.add(new ParaWspolrzednych(28, 12));
-        wierzcholek4.add(new ParaWspolrzednych(28, 14));
-        wierzcholek4.add(new ParaWspolrzednych(26, 9));
-        wierzcholek4.add(new ParaWspolrzednych(26, 11));
-        wierzcholek4.add(new ParaWspolrzednych(26, 13));
-        wierzcholek4.add(new ParaWspolrzednych(26, 15));
+        wierzcholek4.add(new ParaWspolrzednych(16, 12));
+        wierzcholek4.add(new ParaWspolrzednych(15, 11));
+        wierzcholek4.add(new ParaWspolrzednych(15, 13));
+        wierzcholek4.add(new ParaWspolrzednych(14, 10));
+        wierzcholek4.add(new ParaWspolrzednych(14, 12));
+        wierzcholek4.add(new ParaWspolrzednych(14, 14));
+        wierzcholek4.add(new ParaWspolrzednych(13, 9));
+        wierzcholek4.add(new ParaWspolrzednych(13, 11));
+        wierzcholek4.add(new ParaWspolrzednych(13, 13));
+        wierzcholek4.add(new ParaWspolrzednych(13, 15));
 
-        wierzcholek5.add(new ParaWspolrzednych(24, 0));
-        wierzcholek5.add(new ParaWspolrzednych(24, 2));
-        wierzcholek5.add(new ParaWspolrzednych(24, 4));
-        wierzcholek5.add(new ParaWspolrzednych(24, 6));
-        wierzcholek5.add(new ParaWspolrzednych(22, 1));
-        wierzcholek5.add(new ParaWspolrzednych(22, 3));
-        wierzcholek5.add(new ParaWspolrzednych(22, 5));
-        wierzcholek5.add(new ParaWspolrzednych(20, 2));
-        wierzcholek5.add(new ParaWspolrzednych(20, 4));
-        wierzcholek5.add(new ParaWspolrzednych(18, 3));
+        wierzcholek5.add(new ParaWspolrzednych(12, 0));
+        wierzcholek5.add(new ParaWspolrzednych(12, 2));
+        wierzcholek5.add(new ParaWspolrzednych(12, 4));
+        wierzcholek5.add(new ParaWspolrzednych(12, 6));
+        wierzcholek5.add(new ParaWspolrzednych(11, 1));
+        wierzcholek5.add(new ParaWspolrzednych(11, 3));
+        wierzcholek5.add(new ParaWspolrzednych(11, 5));
+        wierzcholek5.add(new ParaWspolrzednych(10, 2));
+        wierzcholek5.add(new ParaWspolrzednych(10, 4));
+        wierzcholek5.add(new ParaWspolrzednych(9, 3));
 
-        wierzcholek6.add(new ParaWspolrzednych(8, 0));
-        wierzcholek6.add(new ParaWspolrzednych(8, 2));
-        wierzcholek6.add(new ParaWspolrzednych(8, 4));
-        wierzcholek6.add(new ParaWspolrzednych(8, 6));
-        wierzcholek6.add(new ParaWspolrzednych(10, 1));
-        wierzcholek6.add(new ParaWspolrzednych(10, 3));
-        wierzcholek6.add(new ParaWspolrzednych(10, 5));
-        wierzcholek6.add(new ParaWspolrzednych(12, 2));
-        wierzcholek6.add(new ParaWspolrzednych(12, 4));
-        wierzcholek6.add(new ParaWspolrzednych(14, 3));
+        wierzcholek6.add(new ParaWspolrzednych(4, 0));
+        wierzcholek6.add(new ParaWspolrzednych(4, 2));
+        wierzcholek6.add(new ParaWspolrzednych(4, 4));
+        wierzcholek6.add(new ParaWspolrzednych(4, 6));
+        wierzcholek6.add(new ParaWspolrzednych(5, 1));
+        wierzcholek6.add(new ParaWspolrzednych(5, 3));
+        wierzcholek6.add(new ParaWspolrzednych(5, 5));
+        wierzcholek6.add(new ParaWspolrzednych(6, 2));
+        wierzcholek6.add(new ParaWspolrzednych(6, 4));
+        wierzcholek6.add(new ParaWspolrzednych(7, 3));
 
 
-        uzupelnianie_planszy();
-
+    
         switch (iluGraczy) {
 
             case 2:
-                //tworzenie 2 graczy z uzupe≈Çnionymi arraylistami pionkow
+                //tworzenie 2 graczy z uzupe≥nionymi arraylistami pionkow
 
-                ArrayList<ParaWspolrzednych> pionki1 = new ArrayList<>();
-                ArrayList<ParaWspolrzednych> pionki2 = new ArrayList<>();
+                pionki1 = new ArrayList<>();
+                pionki2 = new ArrayList<>();
 
                 for (int i = 0; i < wierzcholek1.size(); i++) {
                     setZawartoscTablicyOdInt(wierzcholek1.get(i).getX(), wierzcholek1.get(i).getY(), 1);
@@ -100,15 +117,15 @@ public class PoczatkoweUstawienia extends Plansza {
                     pionki2.add(wierzcholek4.get(i));
                 }
 
-                Gracz gracz1 = new Gracz(1, pionki1);
-                Gracz gracz2 = new Gracz(2, pionki2);
+                gracz1 = new Gracz(1, pionki1);
+                gracz2 = new Gracz(2, pionki2);
 
                 break;
 
             case 3:
                 pionki1 = new ArrayList<>();
                 pionki2 = new ArrayList<>();
-                ArrayList<ParaWspolrzednych> pionki3 = new ArrayList<>();
+                pionki3 = new ArrayList<>();
 
                 for (int i = 0; i < wierzcholek1.size(); i++) {
                     setZawartoscTablicyOdInt(wierzcholek1.get(i).getX(), wierzcholek1.get(i).getY(), 1);
@@ -122,7 +139,7 @@ public class PoczatkoweUstawienia extends Plansza {
 
                 gracz1 = new Gracz(1, pionki1);
                 gracz2 = new Gracz(2, pionki2);
-                Gracz gracz3 = new Gracz(3, pionki3);
+                gracz3 = new Gracz(3, pionki3);
 
                 break;
 
@@ -131,7 +148,7 @@ public class PoczatkoweUstawienia extends Plansza {
                 pionki1 = new ArrayList<>();
                 pionki2 = new ArrayList<>();
                 pionki3 = new ArrayList<>();
-                ArrayList<ParaWspolrzednych> pionki4 = new ArrayList<>();
+                pionki4 = new ArrayList<>();
 
                 for (int i = 0; i < wierzcholek1.size(); i++) {
                     setZawartoscTablicyOdInt(wierzcholek1.get(i).getX(), wierzcholek1.get(i).getY(), 1);
@@ -148,7 +165,7 @@ public class PoczatkoweUstawienia extends Plansza {
                 gracz1 = new Gracz(1, pionki1);
                 gracz2 = new Gracz(2, pionki2);
                 gracz3 = new Gracz(3, pionki3);
-                Gracz gracz4 = new Gracz(4, pionki4);
+                gracz4 = new Gracz(4, pionki4);
 
                 break;
 
@@ -158,8 +175,8 @@ public class PoczatkoweUstawienia extends Plansza {
                 pionki2 = new ArrayList<>();
                 pionki3 = new ArrayList<>();
                 pionki4 = new ArrayList<>();
-                ArrayList<ParaWspolrzednych> pionki5 = new ArrayList<>();
-                ArrayList<ParaWspolrzednych> pionki6 = new ArrayList<>();
+                pionki5 = new ArrayList<>();
+                pionki6 = new ArrayList<>();
 
                 for (int i = 0; i < wierzcholek1.size(); i++) {
                     setZawartoscTablicyOdInt(wierzcholek1.get(i).getX(), wierzcholek1.get(i).getY(), 1);
@@ -181,14 +198,14 @@ public class PoczatkoweUstawienia extends Plansza {
                 gracz2 = new Gracz(2, pionki2);
                 gracz3 = new Gracz(3, pionki3);
                 gracz4 = new Gracz(4, pionki4);
-                Gracz gracz5 = new Gracz(5, pionki5);
-                Gracz gracz6 = new Gracz(6, pionki6);
+                gracz5 = new Gracz(5, pionki5);
+                gracz6 = new Gracz(6, pionki6);
 
                 break;
 
         }
 
+
     }
 
 }
-

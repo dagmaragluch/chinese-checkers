@@ -22,8 +22,6 @@ public class Main extends Application {
 	Scene start, gra;
 	BetaSerwer bserver=new BetaSerwer();
 	GridPane plan;
-	ObrazPlanszy stanplan;
-	//to jest test gita
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -31,7 +29,7 @@ public class Main extends Application {
 		primaryStage.setTitle("Trylma");		
 		
 		Label podajlg = new Label("Liczba graczy:");
-		Label podajlb = new Label("Liczba botï¿½w:");
+		Label podajlb = new Label("Liczba botów:");
 		ObservableList<Integer> liczbagr = FXCollections.observableArrayList(2,3,4,6);
 		ObservableList<Integer> liczbabot = FXCollections.observableArrayList(0,1,2,3,4,5);
 		ChoiceBox liczbagraczy=new ChoiceBox<Integer>(liczbagr);
@@ -42,21 +40,19 @@ public class Main extends Application {
 		
 		Button dalej = new Button("Przejdz do gry");
 		dalej.setOnAction(e -> {
-			bserver.plansza=new PoczatkoweUstawienia((int)liczbagraczy.getValue());
-			stanplan = new ObrazPlanszy(bserver.plansza);
-			
-			for (int i = 0; i < 33; i++) {
+		bserver.plansza=new PoczatkoweUstawienia((int)liczbagraczy.getValue());		
+			for (int i = 0; i < 17; i++) {
 	            for (int j = 0; j < 25; j++) {
-	            	ColumnConstraints column = new ColumnConstraints(20);
-	            	plan.getColumnConstraints().add(column);                    	
+	            	ColumnConstraints column = new ColumnConstraints(22);
+	            	plan.getColumnConstraints().add(column);
+	            	try {
+	            		plan.add(bserver.plansza.tablica[i][j], j, i, 1, 1);
+	            		bserver.plansza.tablica[i][j].addEventHandler(MouseEvent.MOUSE_CLICKED, new MyEventHandler());
+	            	}
+	            	catch (NullPointerException n) {}
 	            }
-	            RowConstraints row = new RowConstraints(20);
+	            RowConstraints row = new RowConstraints(37);
 	            plan.getRowConstraints().add(row);
-	        }
-		
-			for (ParaWspolrzednych key: stanplan.keySet()) {
-				plan.add(stanplan.get(key), key.getY(), key.getX(), 1, 2);
-				stanplan.get(key).addEventHandler(MouseEvent.MOUSE_CLICKED, new MyEventHandler());
 			}
 			primaryStage.setScene(gra); 
 		});
@@ -70,7 +66,7 @@ public class Main extends Application {
 		
 	
 		
-		Button zakonczture = new Button("Zakoï¿½cz Turï¿½");
+		Button zakonczture = new Button("Zakoñcz Turê");
 		plan = new GridPane();
 		BorderPane trybgry = new BorderPane();
 		trybgry.setPadding(new Insets(10,10,10,10));
@@ -100,24 +96,25 @@ public class Main extends Application {
 		
         @Override
         public void handle(Event evt) {
-        	for (ParaWspolrzednych temp : bserver.listaPodswietlanychPol2) {
-       			//stanplan.get(temp).setFill(Color.WHITE);
-       			} 
+        	
+        	Pole temp = (Pole)evt.getSource();
+        	
+        	System.out.println(plan.getRowIndex(temp) + "" + plan.getColumnIndex(temp));
+        	System.out.println(bserver.plansza.getZawartoscTablicy(plan.getRowIndex(temp), plan.getColumnIndex(temp)));
+        	
+        	/*for (ParaWspolrzednych pw : bserver.listaPodswietlanychPol2) {
+        		bserver.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(),1);
+       			} */
         	bserver.listaPodswietlanychPol2.clear();
-        	//bserver.plansza.pokazTablice(bserver.plansza);
-            for (Entry<ParaWspolrzednych, Pole> entry : stanplan.entrySet()) {
-        	   //System.out.println(entry.getKey().getX() + " "+ entry.getKey().getY());
-               if (entry.getValue()!=null && entry.getValue().equals((Pole)evt.getSource())) {
-                   System.out.println(entry.getKey().getX() + " "+ entry.getKey().getY());
-                   bserver.gdzie_mozna_przesunac2(entry.getKey().getX(), entry.getKey().getY());
-                   //bserver.gdzie_mozna_przeskoczyc(entry.getKey().getX(), entry.getKey().getY());
-               }
-            }
-            for (ParaWspolrzednych temp : bserver.listaPodswietlanychPol2) {
-   			   stanplan.get(temp).setFill(Color.LIGHTYELLOW);
-        	   System.out.println( "x=" +temp.getX() + ", y=" + temp.getY());   
-   			}  
-           
+            bserver.gdzie_mozna_przesunac2(plan.getRowIndex(temp), plan.getColumnIndex(temp));
+            //bserver.gdzie_mozna_przeskoczyc(plan.getRowIndex(temp), plan.getColumnIndex(temp));
+            /*for (ParaWspolrzednych pw : bserver.listaPodswietlanychPol2) {
+            	 //bserver.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(),8);
+            	System.out.println(pw.getX() + "" + pw.getY());
+   			} */
+            for (ParaWspolrzednych pw : bserver.listaPodswietlanychPol2) {
+            	System.out.println(pw.getX() + "" + pw.getY());
+        		}
         }
     }
 
