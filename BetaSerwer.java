@@ -29,54 +29,54 @@ public class BetaSerwer implements MetodySerwera {
     }
 
     @Override
-    public void gdzie_mozna_przesunac2(int x, int y) {  //czy rozdzielić Arraylisty podswitlanych pol na dwie ???
+    public void gdzie_mozna_przesunac2(int rz, int kol) {  //czy rozdzielić Arraylisty podswitlanych pol na dwie ???
 
-        if(plansza.getZawartoscTablicy(x+1, y+2) == 0){
-            listaPodswietlanychPol2.add(new ParaWspolrzednych(x+1, y+2));
+        if(plansza.getZawartoscTablicy(rz+2, kol+1) == 0){
+            listaPodswietlanychPol2.add(new ParaWspolrzednych(rz+2, kol+1));
         }
-        if(plansza.getZawartoscTablicy(x+2, y) == 0){
-            listaPodswietlanychPol2.add(new ParaWspolrzednych(x+2, y));
+        if(plansza.getZawartoscTablicy(rz, kol+2) == 0){
+            listaPodswietlanychPol2.add(new ParaWspolrzednych(rz, kol+2));
         }
-        if(plansza.getZawartoscTablicy(x+1, y-2) == 0){
-            listaPodswietlanychPol2.add(new ParaWspolrzednych(x+1, y-2));
+        if(plansza.getZawartoscTablicy(rz-2, kol+1) == 0){
+            listaPodswietlanychPol2.add(new ParaWspolrzednych(rz-2, kol+1));
         }
-        if(plansza.getZawartoscTablicy(x-1, y-2) == 0){
-            listaPodswietlanychPol2.add(new ParaWspolrzednych(x-1, y-2));
+        if(plansza.getZawartoscTablicy(rz-2, kol-1) == 0){
+            listaPodswietlanychPol2.add(new ParaWspolrzednych(rz-2, kol-1));
         }
-        if(plansza.getZawartoscTablicy(x-2, y) == 0){
-            listaPodswietlanychPol2.add(new ParaWspolrzednych(x-2, y));
+        if(plansza.getZawartoscTablicy(rz, kol-2) == 0){
+            listaPodswietlanychPol2.add(new ParaWspolrzednych(rz, kol-2));
         }
-        if(plansza.getZawartoscTablicy(x-1, y+2) == 0){
-            listaPodswietlanychPol2.add(new ParaWspolrzednych(x-1, y+2));
+        if(plansza.getZawartoscTablicy(rz+2, kol-1) == 0){
+            listaPodswietlanychPol2.add(new ParaWspolrzednych(rz+2, kol-1));
         }
     }
 
     @Override
-    public void gdzie_mozna_przeskoczyc(int x, int y) {
+    public void gdzie_mozna_przeskoczyc(int rz, int kol) {
 
-        if(plansza.getZawartoscTablicy(x+1, y+2) > 0 && plansza.getZawartoscTablicy(x+1, y+2) !=9 ){    //spr czy pole jest zajęte
-            if(plansza.getZawartoscTablicy(x+2, y+4) == 0)    //spr czy nastepne pole jest wolne
-                listaPodswietlanychPol2.add(new ParaWspolrzednych(x+2, y+4));
+        if(plansza.getZawartoscTablicy(rz+2, kol+1) > 0 && plansza.getZawartoscTablicy(rz+2, kol+1) !=9 ){    //spr czy pole jest zajęte
+            if(plansza.getZawartoscTablicy(rz+4, kol+2) == 0)    //spr czy nastepne pole jest wolne
+                listaPodswietlanychPol2.add(new ParaWspolrzednych(rz+4, kol+2));
         }
-        if(plansza.getZawartoscTablicy(x+2, y) > 0 && plansza.getZawartoscTablicy(x+2, y) !=9 ){
-            if(plansza.getZawartoscTablicy(x+4, y) == 0)
-                listaPodswietlanychPol2.add(new ParaWspolrzednych(x+4, y));
+        if(plansza.getZawartoscTablicy(rz, kol+2) > 0 && plansza.getZawartoscTablicy(rz, kol+2) !=9 ){
+            if(plansza.getZawartoscTablicy(rz, kol+4) == 0)
+                listaPodswietlanychPol2.add(new ParaWspolrzednych(rz, kol+4));
         }
-        if(plansza.getZawartoscTablicy(x+1, y-2) > 0 && plansza.getZawartoscTablicy(x+1, y-2) !=9 ){
-            if(plansza.getZawartoscTablicy(x+2, y-4) == 0)
-                listaPodswietlanychPol2.add(new ParaWspolrzednych(x+2, y-4));
+        if(plansza.getZawartoscTablicy(rz-2, kol+1) > 0 && plansza.getZawartoscTablicy(rz-2, kol+1) !=9 ){
+            if(plansza.getZawartoscTablicy(rz-4, kol+2) == 0)
+                listaPodswietlanychPol2.add(new ParaWspolrzednych(rz-4, kol+2));
         }
-        if(plansza.getZawartoscTablicy(x-1, y-2) > 0 && plansza.getZawartoscTablicy(x-1, y-2) !=9 ){
-            if(plansza.getZawartoscTablicy(x-2, y-4) == 0)
-                listaPodswietlanychPol2.add(new ParaWspolrzednych(x-2, y-4));
+        if(plansza.getZawartoscTablicy(rz-2, kol-1) > 0 && plansza.getZawartoscTablicy(rz-2, kol-1) !=9 ){
+            if(plansza.getZawartoscTablicy(rz-4, kol-2) == 0)
+                listaPodswietlanychPol2.add(new ParaWspolrzednych(rz-4, kol-2));
         }
-        if(plansza.getZawartoscTablicy(x-2, y) > 0 && plansza.getZawartoscTablicy(x-2, y) !=9 ){
-            if(plansza.getZawartoscTablicy(x-4, y) == 0)
-            listaPodswietlanychPol2.add(new ParaWspolrzednych(x-4, y));
+        if(plansza.getZawartoscTablicy(rz, kol-2) > 0 && plansza.getZawartoscTablicy(rz, kol-2) !=9 ){
+            if(plansza.getZawartoscTablicy(rz, kol-4) == 0)
+                listaPodswietlanychPol2.add(new ParaWspolrzednych(rz, kol-4));
         }
-        if(plansza.getZawartoscTablicy(x-1, y+2) > 0 && plansza.getZawartoscTablicy(x-1, y+2) !=9 ){
-            if(plansza.getZawartoscTablicy(x-2, y+4) == 0)
-                listaPodswietlanychPol2.add(new ParaWspolrzednych(x+2, y+4));
+        if(plansza.getZawartoscTablicy(rz+2, kol-1) > 0 && plansza.getZawartoscTablicy(rz+2, kol-1) !=9 ){
+            if(plansza.getZawartoscTablicy(rz+4, kol-2) == 0)
+                listaPodswietlanychPol2.add(new ParaWspolrzednych(rz+4, kol-2));
         }
     }
 

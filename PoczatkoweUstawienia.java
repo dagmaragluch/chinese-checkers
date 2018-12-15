@@ -2,18 +2,27 @@ import java.util.ArrayList;
 
 public class PoczatkoweUstawienia extends Plansza {
 
+    final int iluGraczy;
 
-    public void poczatkoweUstawienia() {
+    protected Gracz gracz1;
+    protected Gracz gracz2;
+    protected Gracz gracz3;
+    protected Gracz gracz4;
+    protected Gracz gracz5;
+    protected Gracz gracz6;
 
-        int iluGraczy = 6;
+    private ArrayList<ParaWspolrzednych> wierzcholek1 = new ArrayList<>();
+    private ArrayList<ParaWspolrzednych> wierzcholek2 = new ArrayList<>();
+    private ArrayList<ParaWspolrzednych> wierzcholek3 = new ArrayList<>();
+    private ArrayList<ParaWspolrzednych> wierzcholek4 = new ArrayList<>();
+    private ArrayList<ParaWspolrzednych> wierzcholek5 = new ArrayList<>();
+    private ArrayList<ParaWspolrzednych> wierzcholek6 = new ArrayList<>();
 
-        ArrayList<ParaWspolrzednych> wierzcholek1 = new ArrayList<>();
-        ArrayList<ParaWspolrzednych> wierzcholek2 = new ArrayList<>();
-        ArrayList<ParaWspolrzednych> wierzcholek3 = new ArrayList<>();
-        ArrayList<ParaWspolrzednych> wierzcholek4 = new ArrayList<>();
-        ArrayList<ParaWspolrzednych> wierzcholek5 = new ArrayList<>();
-        ArrayList<ParaWspolrzednych> wierzcholek6 = new ArrayList<>();
 
+
+    PoczatkoweUstawienia(int a) {
+
+        iluGraczy = a ;
 
         wierzcholek1.add(new ParaWspolrzednych(0, 12));
         wierzcholek1.add(new ParaWspolrzednych(2, 11));
@@ -92,16 +101,22 @@ public class PoczatkoweUstawienia extends Plansza {
                 ArrayList<ParaWspolrzednych> pionki1 = new ArrayList<>();
                 ArrayList<ParaWspolrzednych> pionki2 = new ArrayList<>();
 
+                ArrayList<ParaWspolrzednych> wierzGracza1 = new ArrayList<>();
+                ArrayList<ParaWspolrzednych> wierzGracza2 = new ArrayList<>();
+
                 for (int i = 0; i < wierzcholek1.size(); i++) {
                     setZawartoscTablicyOdInt(wierzcholek1.get(i).getX(), wierzcholek1.get(i).getY(), 1);
                     setZawartoscTablicyOdInt(wierzcholek4.get(i).getX(), wierzcholek4.get(i).getY(), 2);
 
                     pionki1.add(wierzcholek1.get(i));
                     pionki2.add(wierzcholek4.get(i));
+
+                    wierzGracza1.add(wierzcholek4.get(i));
+                    wierzGracza2.add(wierzcholek1.get(i));
                 }
 
-                Gracz gracz1 = new Gracz(1, pionki1);
-                Gracz gracz2 = new Gracz(2, pionki2);
+                gracz1 = new Gracz(1, pionki1, wierzGracza1);
+                gracz2 = new Gracz(2, pionki2, wierzGracza2);
 
                 break;
 
@@ -109,6 +124,9 @@ public class PoczatkoweUstawienia extends Plansza {
                 pionki1 = new ArrayList<>();
                 pionki2 = new ArrayList<>();
                 ArrayList<ParaWspolrzednych> pionki3 = new ArrayList<>();
+                wierzGracza1 = new ArrayList<>();
+                wierzGracza2 = new ArrayList<>();
+                ArrayList<ParaWspolrzednych> wierzGracza3 = new ArrayList<>();
 
                 for (int i = 0; i < wierzcholek1.size(); i++) {
                     setZawartoscTablicyOdInt(wierzcholek1.get(i).getX(), wierzcholek1.get(i).getY(), 1);
@@ -118,11 +136,16 @@ public class PoczatkoweUstawienia extends Plansza {
                     pionki1.add(wierzcholek1.get(i));
                     pionki2.add(wierzcholek3.get(i));
                     pionki3.add(wierzcholek5.get(i));
+
+                    wierzGracza1.add(wierzcholek4.get(i));
+                    wierzGracza2.add(wierzcholek6.get(i));
+                    wierzGracza3.add(wierzcholek2.get(i));
+
                 }
 
-                gracz1 = new Gracz(1, pionki1);
-                gracz2 = new Gracz(2, pionki2);
-                Gracz gracz3 = new Gracz(3, pionki3);
+                gracz1 = new Gracz(1, pionki1, wierzGracza1);
+                gracz2 = new Gracz(2, pionki2, wierzGracza2);
+                gracz3 = new Gracz(3, pionki3, wierzGracza3);
 
                 break;
 
@@ -132,6 +155,10 @@ public class PoczatkoweUstawienia extends Plansza {
                 pionki2 = new ArrayList<>();
                 pionki3 = new ArrayList<>();
                 ArrayList<ParaWspolrzednych> pionki4 = new ArrayList<>();
+                wierzGracza1 = new ArrayList<>();
+                wierzGracza2 = new ArrayList<>();
+                wierzGracza3 = new ArrayList<>();
+                ArrayList<ParaWspolrzednych> wierzGracza4 = new ArrayList<>();
 
                 for (int i = 0; i < wierzcholek1.size(); i++) {
                     setZawartoscTablicyOdInt(wierzcholek1.get(i).getX(), wierzcholek1.get(i).getY(), 1);
@@ -143,12 +170,17 @@ public class PoczatkoweUstawienia extends Plansza {
                     pionki2.add(wierzcholek3.get(i));
                     pionki3.add(wierzcholek4.get(i));
                     pionki4.add(wierzcholek6.get(i));
+
+                    wierzGracza1.add(wierzcholek4.get(i));
+                    wierzGracza2.add(wierzcholek6.get(i));
+                    wierzGracza3.add(wierzcholek1.get(i));
+                    wierzGracza4.add(wierzcholek3.get(i));
                 }
 
-                gracz1 = new Gracz(1, pionki1);
-                gracz2 = new Gracz(2, pionki2);
-                gracz3 = new Gracz(3, pionki3);
-                Gracz gracz4 = new Gracz(4, pionki4);
+                gracz1 = new Gracz(1, pionki1, wierzGracza1);
+                gracz2 = new Gracz(2, pionki2, wierzGracza2);
+                gracz3 = new Gracz(3, pionki3, wierzGracza3);
+                gracz4 = new Gracz(4, pionki4, wierzGracza4);
 
                 break;
 
@@ -160,6 +192,12 @@ public class PoczatkoweUstawienia extends Plansza {
                 pionki4 = new ArrayList<>();
                 ArrayList<ParaWspolrzednych> pionki5 = new ArrayList<>();
                 ArrayList<ParaWspolrzednych> pionki6 = new ArrayList<>();
+                wierzGracza1 = new ArrayList<>();
+                wierzGracza2 = new ArrayList<>();
+                wierzGracza3 = new ArrayList<>();
+                wierzGracza4 = new ArrayList<>();
+                ArrayList<ParaWspolrzednych> wierzGracza5 = new ArrayList<>();
+                ArrayList<ParaWspolrzednych> wierzGracza6 = new ArrayList<>();
 
                 for (int i = 0; i < wierzcholek1.size(); i++) {
                     setZawartoscTablicyOdInt(wierzcholek1.get(i).getX(), wierzcholek1.get(i).getY(), 1);
@@ -175,14 +213,21 @@ public class PoczatkoweUstawienia extends Plansza {
                     pionki4.add(wierzcholek4.get(i));
                     pionki5.add(wierzcholek5.get(i));
                     pionki6.add(wierzcholek6.get(i));
+
+                    wierzGracza1.add(wierzcholek4.get(i));
+                    wierzGracza2.add(wierzcholek5.get(i));
+                    wierzGracza3.add(wierzcholek6.get(i));
+                    wierzGracza4.add(wierzcholek1.get(i));
+                    wierzGracza5.add(wierzcholek2.get(i));
+                    wierzGracza6.add(wierzcholek3.get(i));
                 }
 
-                gracz1 = new Gracz(1, pionki1);
-                gracz2 = new Gracz(2, pionki2);
-                gracz3 = new Gracz(3, pionki3);
-                gracz4 = new Gracz(4, pionki4);
-                Gracz gracz5 = new Gracz(5, pionki5);
-                Gracz gracz6 = new Gracz(6, pionki6);
+                gracz1 = new Gracz(1, pionki1, wierzGracza1);
+                gracz2 = new Gracz(2, pionki2, wierzGracza2);
+                gracz3 = new Gracz(3, pionki3, wierzGracza3);
+                gracz4 = new Gracz(4, pionki4, wierzGracza4);
+                gracz5 = new Gracz(5, pionki5, wierzGracza5);
+                gracz6 = new Gracz(6, pionki6, wierzGracza6);
 
                 break;
 
