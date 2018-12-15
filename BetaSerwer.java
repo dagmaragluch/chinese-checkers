@@ -79,7 +79,4 @@ public class BetaSerwer implements MetodySerwera {
                 listaPodswietlanychPol2.add(new ParaWspolrzednych(x, y+4));
         }
     }
-
-
-
 }
