@@ -102,18 +102,16 @@ public class Main extends Application {
         	System.out.println(plan.getRowIndex(temp) + "" + plan.getColumnIndex(temp));
         	System.out.println(bserver.plansza.getZawartoscTablicy(plan.getRowIndex(temp), plan.getColumnIndex(temp)));
         	
-        	/*for (ParaWspolrzednych pw : bserver.listaPodswietlanychPol2) {
-        		bserver.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(),1);
-       			} */
+        	for (ParaWspolrzednych pw : bserver.listaPodswietlanychPol2) {
+        		bserver.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(),0);
+       			} 
+        	
         	bserver.listaPodswietlanychPol2.clear();
             bserver.gdzie_mozna_przesunac2(plan.getRowIndex(temp), plan.getColumnIndex(temp));
-            //bserver.gdzie_mozna_przeskoczyc(plan.getRowIndex(temp), plan.getColumnIndex(temp));
-            /*for (ParaWspolrzednych pw : bserver.listaPodswietlanychPol2) {
-            	 //bserver.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(),8);
-            	System.out.println(pw.getX() + "" + pw.getY());
-   			} */
+            bserver.gdzie_mozna_przeskoczyc(plan.getRowIndex(temp), plan.getColumnIndex(temp));
             for (ParaWspolrzednych pw : bserver.listaPodswietlanychPol2) {
             	System.out.println(pw.getX() + "" + pw.getY());
+            	bserver.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 8);
         		}
         }
     }

@@ -51,16 +51,17 @@ public class Plansza{
     }
 
 
-    int getZawartoscTablicy(int x, int y) throws NullPointerException{
+    int getZawartoscTablicy(int x, int y) throws ArrayIndexOutOfBoundsException{
     	int i=9;
         try{
-        	i= tablica[x][y].getkolor();
-        } catch (NullPointerException e) {}
+        	if(tablica[x][y] != null ) i= tablica[x][y].getkolor();
+        } catch (ArrayIndexOutOfBoundsException e) {}
     	return i;
     }
 
     void setZawartoscTablicyOdInt(int x, int y, int NaCoZmieniamy){
-        if(tablica[x][y] != null ) tablica[x][y]=new Pole(NaCoZmieniamy);
+        if(tablica[x][y] != null ) tablica[x][y].setkolor(NaCoZmieniamy);
+        else tablica[x][y]=new Pole(NaCoZmieniamy);
 
     }
 
