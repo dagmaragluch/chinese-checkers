@@ -23,6 +23,7 @@ public class Main extends Application {
 	BetaSerwer bserver=new BetaSerwer();
 	GridPane plan;
 	ObrazPlanszy stanplan;
+	//to jest test gita
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -30,7 +31,7 @@ public class Main extends Application {
 		primaryStage.setTitle("Trylma");		
 		
 		Label podajlg = new Label("Liczba graczy:");
-		Label podajlb = new Label("Liczba botów:");
+		Label podajlb = new Label("Liczba botï¿½w:");
 		ObservableList<Integer> liczbagr = FXCollections.observableArrayList(2,3,4,6);
 		ObservableList<Integer> liczbabot = FXCollections.observableArrayList(0,1,2,3,4,5);
 		ChoiceBox liczbagraczy=new ChoiceBox<Integer>(liczbagr);
@@ -69,7 +70,7 @@ public class Main extends Application {
 		
 	
 		
-		Button zakonczture = new Button("Zakoñcz Turê");
+		Button zakonczture = new Button("Zakoï¿½cz Turï¿½");
 		plan = new GridPane();
 		BorderPane trybgry = new BorderPane();
 		trybgry.setPadding(new Insets(10,10,10,10));
