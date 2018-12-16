@@ -23,19 +23,21 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 
 		primaryStage.setTitle("Trylma");
+		
+		//Zawartoœc okna startowego
 
 		Label podajlg = new Label("Liczba graczy:");
-		Label podajlb = new Label("Liczba botÃ³w:");
+		Label podajlb = new Label("Liczba botow:");
 		ObservableList<Integer> liczbagr = FXCollections.observableArrayList(2,3,4,6);
 		ObservableList<Integer> liczbabot = FXCollections.observableArrayList(0,1,2,3,4,5);
 		ChoiceBox liczbagraczy=new ChoiceBox<Integer>(liczbagr);
 		ChoiceBox liczbabotow=new ChoiceBox<>(liczbabot);
-		liczbagraczy.getSelectionModel().select(3);
+		liczbagraczy.getSelectionModel().select(0);
 		liczbabotow.getSelectionModel().select(0);
 
 
 		Button dalej = new Button("Przejdz do gry");
-		dalej.setOnAction(e -> {
+		dalej.setOnAction(e -> { //konstrukcja nowej gry i budowanie planszy
 			
 			grac = new Gra((int)liczbagraczy.getValue());
 			for (int i = 0; i < 17; i++) {
@@ -62,6 +64,7 @@ public class Main extends Application {
 		start = new Scene(wybor, 190,190);
 
 
+		//Zawartosc okna trzymajacego plansze
 
 		Button zakonczture = new Button("Zakoncz Ture");
 		zakonczture.setOnAction(e -> {
@@ -76,12 +79,12 @@ public class Main extends Application {
 		trybgry.setBottom(zakonczture);
 		trybgry.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
-
-
 		plan.setPadding(new Insets(10,20,10,20));
 		//plan.getTransforms().add(new Rotate(180, Rotate.X_AXIS));
 		gra = new Scene(trybgry, 610, 750);
 
+		
+		//cechy okna przy otwarciu
 		primaryStage.setScene(start);
 		primaryStage.setResizable(false);
 		primaryStage.show();
@@ -93,14 +96,14 @@ public class Main extends Application {
 
 	}
 
-	private class MyEventHandler implements EventHandler<Event>{
+	private class MyEventHandler implements EventHandler<Event>{ //co robi klikniêcie NA POLE
 
 		@Override
 		public void handle(Event evt) {
 
 			Pole temp = (Pole)evt.getSource();
 			grac.wykonaj_ruch(plan.getRowIndex(temp), plan.getColumnIndex(temp));
-			
+
 		}
 	}
 
