@@ -59,9 +59,11 @@ public class Plansza{
         return i;
     }
 
-    void setZawartoscTablicyOdInt(int x, int y, int NaCoZmieniamy){
-        if(tablica[x][y] != null ) tablica[x][y].setkolor(NaCoZmieniamy);
-        else tablica[x][y]=new Pole(NaCoZmieniamy);
+    void setZawartoscTablicyOdInt(int x, int y, int NaCoZmieniamy)throws ArrayIndexOutOfBoundsException{
+        try{
+        	if(tablica[x][y] != null ) tablica[x][y].setkolor(NaCoZmieniamy);
+        	else tablica[x][y]=new Pole(NaCoZmieniamy);
+        }catch (ArrayIndexOutOfBoundsException e) {}
 
     }
 

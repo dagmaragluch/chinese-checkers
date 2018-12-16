@@ -10,13 +10,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 	Stage primaryStage;
 	Scene start, gra;
-	BetaSerwer bserver=new BetaSerwer();
 	GridPane plan;
+	Gra grac;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -35,14 +36,15 @@ public class Main extends Application {
 
 		Button dalej = new Button("Przejdz do gry");
 		dalej.setOnAction(e -> {
-			bserver.plansza=new PoczatkoweUstawienia((int)liczbagraczy.getValue());
+			
+			grac = new Gra((int)liczbagraczy.getValue());
 			for (int i = 0; i < 17; i++) {
 				for (int j = 0; j < 25; j++) {
 					ColumnConstraints column = new ColumnConstraints(22);
 					plan.getColumnConstraints().add(column);
 					try {
-						plan.add(bserver.plansza.tablica[i][j], j, i, 1, 1);
-						bserver.plansza.tablica[i][j].addEventHandler(MouseEvent.MOUSE_CLICKED, new MyEventHandler());
+						plan.add(grac.betaSerwer.plansza.tablica[i][j], j, i, 1, 1);
+						grac.betaSerwer.plansza.tablica[i][j].addEventHandler(MouseEvent.MOUSE_CLICKED, new MyEventHandler());
 					}
 					catch (NullPointerException n) {}
 				}
@@ -61,7 +63,11 @@ public class Main extends Application {
 
 
 
-		Button zakonczture = new Button("Zakoñcz Turê");
+		Button zakonczture = new Button("Zakoncz Ture");
+		zakonczture.setOnAction(e -> {
+			grac.skonczylem();
+		});
+		
 		plan = new GridPane();
 		BorderPane trybgry = new BorderPane();
 		trybgry.setPadding(new Insets(10,10,10,10));
@@ -93,21 +99,8 @@ public class Main extends Application {
 		public void handle(Event evt) {
 
 			Pole temp = (Pole)evt.getSource();
-
-			System.out.println(plan.getRowIndex(temp) + "" + plan.getColumnIndex(temp));
-			System.out.println(bserver.plansza.getZawartoscTablicy(plan.getRowIndex(temp), plan.getColumnIndex(temp)));
-
-			for (ParaWspolrzednych pw : bserver.listaPodswietlanychPol) {
-				bserver.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(),0);
-			}
-
-			bserver.listaPodswietlanychPol.clear();
-			bserver.gdzie_mozna_przesunac(plan.getRowIndex(temp), plan.getColumnIndex(temp));
-			bserver.gdzie_mozna_przeskoczyc(plan.getRowIndex(temp), plan.getColumnIndex(temp));
-			for (ParaWspolrzednych pw : bserver.listaPodswietlanychPol) {
-				System.out.println(pw.getX() + "" + pw.getY());
-				bserver.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 8);
-			}
+			grac.wykonaj_ruch(plan.getRowIndex(temp), plan.getColumnIndex(temp));
+			
 		}
 	}
 

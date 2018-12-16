@@ -6,13 +6,11 @@ public interface MetodyDoGry {
 
     void skonczylem();
 
-    ParaWspolrzednych wykonaj_pierwszy_podruch(int x1, int y1, int x2, int y2);
+    void policz_nowe_ruchy(int x, int y);
+    
+    void wykonaj_ruch(int x, int y);
 
-    ParaWspolrzednych wykonaj_zwykly_podruch(ParaWspolrzednych stara, int x2, int y2);
-
-    void wykonaj_ruch();
-
-    void czy_wygral();
+    boolean czy_wygral();
 
 
 }

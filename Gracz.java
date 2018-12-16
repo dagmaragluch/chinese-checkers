@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Gracz {
 
-    private final int kolorGracza;
+    final int kolorGracza;
     ArrayList<ParaWspolrzednych> listaPionkow;
     ArrayList<ParaWspolrzednych> docelowyWierzcholek;
     boolean czyJuzWygral;

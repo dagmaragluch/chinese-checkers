@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class PoczatkoweUstawienia extends Plansza {
 
-    int iluGraczy;
+    protected int iluGraczy;
 
     protected Gracz gracz1;
     protected Gracz gracz2;
@@ -10,6 +10,13 @@ public class PoczatkoweUstawienia extends Plansza {
     protected Gracz gracz4;
     protected Gracz gracz5;
     protected Gracz gracz6;
+    
+    ArrayList<ParaWspolrzednych> pionki1;
+    ArrayList<ParaWspolrzednych> pionki2;
+    ArrayList<ParaWspolrzednych> pionki3;
+    ArrayList<ParaWspolrzednych> pionki4;
+    ArrayList<ParaWspolrzednych> pionki5;
+    ArrayList<ParaWspolrzednych> pionki6;
 
     private ArrayList<ParaWspolrzednych> wierzcholek1 = new ArrayList<>();
     private ArrayList<ParaWspolrzednych> wierzcholek2 = new ArrayList<>();
@@ -18,13 +25,11 @@ public class PoczatkoweUstawienia extends Plansza {
     private ArrayList<ParaWspolrzednych> wierzcholek5 = new ArrayList<>();
     private ArrayList<ParaWspolrzednych> wierzcholek6 = new ArrayList<>();
 
-    PoczatkoweUstawienia(){}
+    public void ustawPionki(int a) {
 
-    PoczatkoweUstawienia(int a) {
+        this.iluGraczy = a;
 
-        iluGraczy = a ;
-
-         wierzcholek1.add(new ParaWspolrzednych(0, 12));
+        wierzcholek1.add(new ParaWspolrzednych(0, 12));
         wierzcholek1.add(new ParaWspolrzednych(1, 11));
         wierzcholek1.add(new ParaWspolrzednych(1, 13));
         wierzcholek1.add(new ParaWspolrzednych(2, 10));
@@ -96,8 +101,8 @@ public class PoczatkoweUstawienia extends Plansza {
             case 2:
                 //tworzenie 2 graczy z uzupełnionymi arraylistami pionkow
 
-                ArrayList<ParaWspolrzednych> pionki1 = new ArrayList<>();
-                ArrayList<ParaWspolrzednych> pionki2 = new ArrayList<>();
+                pionki1 = new ArrayList<>();
+                pionki2 = new ArrayList<>();
 
                 ArrayList<ParaWspolrzednych> wierzGracza1 = new ArrayList<>();
                 ArrayList<ParaWspolrzednych> wierzGracza2 = new ArrayList<>();
@@ -119,9 +124,9 @@ public class PoczatkoweUstawienia extends Plansza {
                 break;
 
             case 3:
-                pionki1 = new ArrayList<>();
+            	pionki1 = new ArrayList<>();
                 pionki2 = new ArrayList<>();
-                ArrayList<ParaWspolrzednych> pionki3 = new ArrayList<>();
+                pionki3 = new ArrayList<>();
                 wierzGracza1 = new ArrayList<>();
                 wierzGracza2 = new ArrayList<>();
                 ArrayList<ParaWspolrzednych> wierzGracza3 = new ArrayList<>();
@@ -152,7 +157,7 @@ public class PoczatkoweUstawienia extends Plansza {
                 pionki1 = new ArrayList<>();
                 pionki2 = new ArrayList<>();
                 pionki3 = new ArrayList<>();
-                ArrayList<ParaWspolrzednych> pionki4 = new ArrayList<>();
+                pionki4 = new ArrayList<>();
                 wierzGracza1 = new ArrayList<>();
                 wierzGracza2 = new ArrayList<>();
                 wierzGracza3 = new ArrayList<>();
@@ -188,8 +193,8 @@ public class PoczatkoweUstawienia extends Plansza {
                 pionki2 = new ArrayList<>();
                 pionki3 = new ArrayList<>();
                 pionki4 = new ArrayList<>();
-                ArrayList<ParaWspolrzednych> pionki5 = new ArrayList<>();
-                ArrayList<ParaWspolrzednych> pionki6 = new ArrayList<>();
+                pionki5 = new ArrayList<>();
+                pionki6 = new ArrayList<>();
                 wierzGracza1 = new ArrayList<>();
                 wierzGracza2 = new ArrayList<>();
                 wierzGracza3 = new ArrayList<>();

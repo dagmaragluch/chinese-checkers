@@ -1,17 +1,27 @@
+import java.util.TreeSet;
+
 public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
 
-    private int tura = 1;
-    private Gracz aktualnyGracz;
-    private BetaSerwer betaSerwer = new BetaSerwer();
-    private boolean czySkonczylem;
+    Gra(int a) {
+    	ustawPionki(a);
+    	this.betaSerwer.plansza=this;
+    	this.iluGraczy=a;
+    }
 
-    private ParaWspolrzednych pamietanaParaWsp;
+	private int tura=1;
+    private Gracz aktualnyGracz;
+    BetaSerwer betaSerwer = new BetaSerwer();
+    
+    private int staryX;
+    private int staryY;
+    private int ruch=0;
+    private boolean czyostatni=false;
 
 
     @Override
     public int ktora_tura() {
-        if (tura > iluGraczy) {
-            tura = 1;
+        if (tura < 1) {
+            tura = this.iluGraczy;
         }
         return tura;
     }
@@ -20,98 +30,96 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
     public Gracz czyja_tura() {
         switch (ktora_tura()) {
             case 1:
-                aktualnyGracz = gracz1;
+                aktualnyGracz =  gracz1; return aktualnyGracz;
             case 2:
-                aktualnyGracz = gracz2;
+                aktualnyGracz =  gracz2; return aktualnyGracz;
             case 3:
-                aktualnyGracz = gracz3;
+                aktualnyGracz =  gracz3; return aktualnyGracz;
             case 4:
-                aktualnyGracz = gracz4;
+                aktualnyGracz =  gracz4; return aktualnyGracz;
             case 5:
-                aktualnyGracz = gracz5;
+                aktualnyGracz =  gracz5; return aktualnyGracz;
             case 6:
-                aktualnyGracz = gracz6;
+                aktualnyGracz =  gracz6; return aktualnyGracz;
+            default: return aktualnyGracz;
         }
-        return aktualnyGracz;
     }
 
     @Override
     public void skonczylem() {
-        tura++;
-        czySkonczylem = true;
+    	for (ParaWspolrzednych pw : betaSerwer.listaPodswietlanychPol) {
+			betaSerwer.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 0);
+		}
+		betaSerwer.wyczysc();
+        tura--;
+        ruch=0;
+        czyostatni=false;
+        
+    }
+    
+    @Override
+    public void policz_nowe_ruchy (int x, int y) {
+    	for (ParaWspolrzednych pw : betaSerwer.listaPodswietlanychPol) {
+			betaSerwer.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 0);
+		}
+		betaSerwer.wyczysc();
+		betaSerwer.gdzie_mozna_przesunac(x, y);
+        betaSerwer.gdzie_mozna_przeskoczyc(x, y);
+        for (ParaWspolrzednych pw : betaSerwer.listaPodswietlanychPol) {
+			betaSerwer.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 8);
+		}
+        staryX=x;
+        staryY=y;
     }
 
 
     @Override
-    public ParaWspolrzednych wykonaj_pierwszy_podruch(int x1, int y1, int x2, int y2) {
-        pamietanaParaWsp = new ParaWspolrzednych(x2, y2);
+    public void wykonaj_ruch(int x, int y) {
 
-        //while z breakiem żeby klikał w plansze tak długo aż kliknie w swój pionek
-        while (czyja_tura().getKolorGracza() == getZawartoscTablicy(x1, y1)) {     //czy kliknal w pole ze swoim pionkiem
-            betaSerwer.gdzie_mozna_przesunac(x1, y1);
-            betaSerwer.gdzie_mozna_przeskoczyc(x1, y1);
-
-            while (betaSerwer.listaPodswietlanychPol.contains(new ParaWspolrzednych(x2, y2))) {
-                setZawartoscTablicyOdInt(x1, y1, 0);
-                setZawartoscTablicyOdInt(x2, y2, czyja_tura().getKolorGracza());
-                break;
-            }
-            break;
-        }
-        return pamietanaParaWsp;
-    }
-
-    @Override
-    public ParaWspolrzednych wykonaj_zwykly_podruch(ParaWspolrzednych stara, int x2, int y2) {
-
-        stara = pamietanaParaWsp;
-
-        int x1 = stara.getX();
-        int y1 = stara.getY();
-
-        pamietanaParaWsp = new ParaWspolrzednych(x2, y2);
-
-        while (czyja_tura().getKolorGracza() == getZawartoscTablicy(x1, y1)) {
-            betaSerwer.gdzie_mozna_przeskoczyc(x1, y1);
-
-            while (betaSerwer.listaPodswietlanychPol.contains(new ParaWspolrzednych(x2, y2))) {
-                setZawartoscTablicyOdInt(x1, y1, 0);
-                setZawartoscTablicyOdInt(x2, y2, czyja_tura().getKolorGracza());
-                break;
-            }
-            break;
-        }
-        return pamietanaParaWsp;
-    }
-
-
-    @Override
-    public void wykonaj_ruch() {
-
-        if (!aktualnyGracz.czyJuzWygral) {
-            int liczbaPodruchow = 0;
-            czySkonczylem = false;
-
-            while (!czySkonczylem) {
-                if (liczbaPodruchow == 0) {
-                    //      wykonaj_pierwszy_podruch();       //trzeba dodać współrzędne z kliknięcia
-                } else {
-                    //      wykonaj_zwykly_podruch();         //trzeba dodać współrzędne z kliknięcia
-                }
-                liczbaPodruchow++;
-            }
-            czy_wygral();
+        if (!czy_wygral()) {
+        	if(!czyostatni) {
+        		if (ruch == 0) {
+        			if(czyja_tura().getKolorGracza() ==  getZawartoscTablicy(x, y)) {
+        				policz_nowe_ruchy(x,y);
+        				return;
+        			}
+        		}
+        		for (ParaWspolrzednych para : betaSerwer.listaPodswietlanychPol2) {
+        			if (x == para.getX() && y == para.getY()) {
+        				betaSerwer.plansza.setZawartoscTablicyOdInt(staryX, staryY, 0);
+        				policz_nowe_ruchy(x, y);
+        				betaSerwer.plansza.setZawartoscTablicyOdInt(x, y, czyja_tura().getKolorGracza());
+        				ruch++;
+                        return;
+        			}
+        		}
+        		for (ParaWspolrzednych para : betaSerwer.listaPodswietlanychPol1) {
+        			if (x == para.getX() && y == para.getY()) {
+        				for (ParaWspolrzednych pw : betaSerwer.listaPodswietlanychPol) {
+        					betaSerwer.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 0);
+        				}
+        				betaSerwer.wyczysc();
+        				betaSerwer.plansza.setZawartoscTablicyOdInt(staryX, staryY, 0);
+        				betaSerwer.plansza.setZawartoscTablicyOdInt(x, y, czyja_tura().getKolorGracza());
+        				ruch++;
+        				czyostatni=true;
+        				return;
+        			}
+        		} 
+        	} return;
+             
         } else {
             skonczylem();
         }
     }
 
     @Override
-    public void czy_wygral() {
+    public boolean czy_wygral() {
 
-        if (aktualnyGracz.docelowyWierzcholek.equals(aktualnyGracz.listaPionkow)) { //trzeba doczytac czy w equals kolejność ma znaczenie
-            aktualnyGracz.czyJuzWygral = true;
-        }
+    	/*if (aktualnyGracz.docelowyWierzcholek.equals(aktualnyGracz.listaPionkow)) { //trzeba doczytac czy w equals kolejność ma znaczenie
+            return true;
+        }*/ //nie dzia�a
+    	return false;
     }
 
 
