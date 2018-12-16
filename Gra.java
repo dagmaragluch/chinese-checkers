@@ -9,7 +9,7 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
     }
 
 	private int tura=1;
-    private Gracz aktualnyGracz;
+    Gracz aktualnyGracz;
     BetaSerwer betaSerwer = new BetaSerwer();
     
     private int staryX;
@@ -115,11 +115,11 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
 
     @Override
     public boolean czy_wygral() {
-
-    	/*if (aktualnyGracz.docelowyWierzcholek.equals(aktualnyGracz.listaPionkow)) { //trzeba doczytac czy w equals kolejność ma znaczenie
-            return true;
-        }*/ //nie dzia�a
-    	return false;
+    	for (ParaWspolrzednych para : czyja_tura().docelowyWierzcholek) {
+			if(this.getZawartoscTablicy(para.getX(), para.getY())==czyja_tura().kolorGracza);
+			else return false;
+		}
+    	return true;
     }
 
 
