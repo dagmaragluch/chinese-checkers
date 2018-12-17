@@ -67,6 +67,10 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
         		
         		if (ruch == 0) {
         			if(czyja_tura().getKolorGracza() ==  getZawartoscTablicy(x, y)) { //pêtla licz¹ca mo¿liwoœci
+        				for (ParaWspolrzednych pw : betaSerwer.listaPodswietlanychPol) { //wymazanie podœwietleñ
+        					betaSerwer.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 0);
+        				}
+        				betaSerwer.wyczysc();
         				betaSerwer.gdzie_mozna_przesunac(x, y); //dwa rodzaje ruchów s¹ dostepne
         				betaSerwer.gdzie_mozna_przeskoczyc(x, y); 
         				for (ParaWspolrzednych pw : betaSerwer.listaPodswietlanychPol) { //podœwietlanie pól
@@ -124,7 +128,7 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
     @Override
     public boolean czy_wygral() {
     	for (ParaWspolrzednych para : czyja_tura().docelowyWierzcholek) {
-			if(this.getZawartoscTablicy(para.getX(), para.getY())==czyja_tura().kolorGracza);
+			if(this.getZawartoscTablicy(para.getX(), para.getY())==czyja_tura().kolorGracza) { continue;}
 			else return false;
 		}
     	return true;
