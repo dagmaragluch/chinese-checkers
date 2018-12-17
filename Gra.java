@@ -9,7 +9,7 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
     }
 
 	private int tura=1;
-    Gracz aktualnyGracz;
+    static Gracz aktualnyGracz;
     BetaSerwer betaSerwer = new BetaSerwer();
     
     private int staryX;
@@ -30,30 +30,31 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
     public Gracz czyja_tura() {
         switch (ktora_tura()) {
             case 1:
-                aktualnyGracz =  gracz1; return aktualnyGracz;
+                aktualnyGracz = gracz1; return aktualnyGracz;
             case 2:
-                aktualnyGracz =  gracz2; return aktualnyGracz;
+                aktualnyGracz = gracz2; return aktualnyGracz;
             case 3:
-                aktualnyGracz =  gracz3; return aktualnyGracz;
+                aktualnyGracz = gracz3; return aktualnyGracz;
             case 4:
-                aktualnyGracz =  gracz4; return aktualnyGracz;
+                aktualnyGracz = gracz4; return aktualnyGracz;
             case 5:
-                aktualnyGracz =  gracz5; return aktualnyGracz;
+                aktualnyGracz = gracz5; return aktualnyGracz;
             case 6:
-                aktualnyGracz =  gracz6; return aktualnyGracz;
-            default: return aktualnyGracz;
+                aktualnyGracz = gracz6; return aktualnyGracz;
         }
+        return aktualnyGracz;
     }
 
     @Override
     public void skonczylem() {
     	
-    	for (ParaWspolrzednych pw : betaSerwer.listaPodswietlanychPol) {			//pêtla wymazuj¹ca podœwietlone pola na planszy
+    	for (ParaWspolrzednych pw : betaSerwer.listaPodswietlanychPol) {			//pêtla wymazuj¹ca podœwietlone pola na planszy ZASTAPIC
 			betaSerwer.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 0);
 		}
 		betaSerwer.wyczysc();
-        
-		tura--;
+		do {
+			tura--;
+		} while(czyja_tura().czyJuzWygral);
         ruch=0;
         czyostatni=false;
         
@@ -63,8 +64,7 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
     public void wykonaj_ruch(int x, int y) {
 
         if (!czy_wygral()) {
-        	if(!czyostatni) {	
-        		
+        	if(!czyostatni) {	  		
         		if (ruch == 0) {
         			if(czyja_tura().getKolorGracza() ==  getZawartoscTablicy(x, y)) { //pêtla licz¹ca mo¿liwoœci
         				for (ParaWspolrzednych pw : betaSerwer.listaPodswietlanychPol) { //wymazanie podœwietleñ
@@ -130,7 +130,8 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
     	for (ParaWspolrzednych para : czyja_tura().docelowyWierzcholek) {
 			if(this.getZawartoscTablicy(para.getX(), para.getY())==czyja_tura().kolorGracza) { continue;}
 			else return false;
-		}
+    	}
+    	czyja_tura().czyJuzWygral=true;
     	return true;
     }
 
