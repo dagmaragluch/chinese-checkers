@@ -11,6 +11,8 @@ public class PoczatkoweUstawienia extends Plansza {
     protected Gracz gracz5;
     protected Gracz gracz6;
     
+    ArrayList<Gracz> listaGraczy = new ArrayList<>();
+    
     ArrayList<ParaWspolrzednych> pionki1;
     ArrayList<ParaWspolrzednych> pionki2;
     ArrayList<ParaWspolrzednych> pionki3;
@@ -101,9 +103,6 @@ public class PoczatkoweUstawienia extends Plansza {
             case 2:
                 //tworzenie 2 graczy z uzupełnionymi arraylistami pionkow
 
-                pionki1 = new ArrayList<>();
-                pionki2 = new ArrayList<>();
-
                 ArrayList<ParaWspolrzednych> wierzGracza1 = new ArrayList<>();
                 ArrayList<ParaWspolrzednych> wierzGracza2 = new ArrayList<>();
 
@@ -111,34 +110,26 @@ public class PoczatkoweUstawienia extends Plansza {
                     setZawartoscTablicyOdInt(wierzcholek1.get(i).getX(), wierzcholek1.get(i).getY(), 1);
                     setZawartoscTablicyOdInt(wierzcholek4.get(i).getX(), wierzcholek4.get(i).getY(), 2);
 
-                    pionki1.add(wierzcholek1.get(i));
-                    pionki2.add(wierzcholek4.get(i));
-
                     wierzGracza1.add(wierzcholek4.get(i));
                     wierzGracza2.add(wierzcholek1.get(i));
                 }
 
-                gracz1 = new Gracz(1, pionki1, wierzGracza1, false);
-                gracz2 = new Gracz(2, pionki2, wierzGracza2, false);
+                gracz1 = new Gracz(1, wierzGracza1, false);
+                gracz2 = new Gracz(2, wierzGracza2, false);
+                listaGraczy.add(gracz1);
+                listaGraczy.add(gracz2);
 
                 break;
 
             case 3:
-            	pionki1 = new ArrayList<>();
-                pionki2 = new ArrayList<>();
-                pionki3 = new ArrayList<>();
                 wierzGracza1 = new ArrayList<>();
                 wierzGracza2 = new ArrayList<>();
                 ArrayList<ParaWspolrzednych> wierzGracza3 = new ArrayList<>();
 
                 for (int i = 0; i < wierzcholek1.size(); i++) {
-                    setZawartoscTablicyOdInt(wierzcholek1.get(i).getX(), wierzcholek1.get(i).getY(), 1);
-                    setZawartoscTablicyOdInt(wierzcholek3.get(i).getX(), wierzcholek3.get(i).getY(), 2);
-                    setZawartoscTablicyOdInt(wierzcholek5.get(i).getX(), wierzcholek5.get(i).getY(), 3);
-
-                    pionki1.add(wierzcholek1.get(i));
-                    pionki2.add(wierzcholek3.get(i));
-                    pionki3.add(wierzcholek5.get(i));
+                    setZawartoscTablicyOdInt(wierzcholek4.get(i).getX(), wierzcholek4.get(i).getY(), 1);
+                    setZawartoscTablicyOdInt(wierzcholek6.get(i).getX(), wierzcholek6.get(i).getY(), 2);
+                    setZawartoscTablicyOdInt(wierzcholek2.get(i).getX(), wierzcholek2.get(i).getY(), 3);
 
                     wierzGracza1.add(wierzcholek4.get(i));
                     wierzGracza2.add(wierzcholek6.get(i));
@@ -146,18 +137,14 @@ public class PoczatkoweUstawienia extends Plansza {
 
                 }
 
-                gracz1 = new Gracz(1, pionki1, wierzGracza1, false);
-                gracz2 = new Gracz(2, pionki2, wierzGracza2, false);
-                gracz3 = new Gracz(3, pionki3, wierzGracza3, false);
+                listaGraczy.add(gracz1 = new Gracz(1, wierzGracza1, false));
+                listaGraczy.add(gracz2 = new Gracz(2, wierzGracza2, false));
+                listaGraczy.add(gracz3 = new Gracz(3, wierzGracza3, false));
 
                 break;
 
             case 4:
 
-                pionki1 = new ArrayList<>();
-                pionki2 = new ArrayList<>();
-                pionki3 = new ArrayList<>();
-                pionki4 = new ArrayList<>();
                 wierzGracza1 = new ArrayList<>();
                 wierzGracza2 = new ArrayList<>();
                 wierzGracza3 = new ArrayList<>();
@@ -169,32 +156,21 @@ public class PoczatkoweUstawienia extends Plansza {
                     setZawartoscTablicyOdInt(wierzcholek4.get(i).getX(), wierzcholek4.get(i).getY(), 3);
                     setZawartoscTablicyOdInt(wierzcholek6.get(i).getX(), wierzcholek6.get(i).getY(), 4);
 
-                    pionki1.add(wierzcholek1.get(i));
-                    pionki2.add(wierzcholek3.get(i));
-                    pionki3.add(wierzcholek4.get(i));
-                    pionki4.add(wierzcholek6.get(i));
-
                     wierzGracza1.add(wierzcholek4.get(i));
                     wierzGracza2.add(wierzcholek6.get(i));
                     wierzGracza3.add(wierzcholek1.get(i));
                     wierzGracza4.add(wierzcholek3.get(i));
                 }
 
-                gracz1 = new Gracz(1, pionki1, wierzGracza1, false);
-                gracz2 = new Gracz(2, pionki2, wierzGracza2, false);
-                gracz3 = new Gracz(3, pionki3, wierzGracza3, false);
-                gracz4 = new Gracz(4, pionki4, wierzGracza4, false);
+                listaGraczy.add(gracz1 = new Gracz(1, wierzGracza1, false));
+                listaGraczy.add(gracz2 = new Gracz(2, wierzGracza2, false));
+                listaGraczy.add(gracz3 = new Gracz(3, wierzGracza3, false));
+                listaGraczy.add(gracz4 = new Gracz(4, wierzGracza4, false));
 
                 break;
 
             case 6:
 
-                pionki1 = new ArrayList<>();
-                pionki2 = new ArrayList<>();
-                pionki3 = new ArrayList<>();
-                pionki4 = new ArrayList<>();
-                pionki5 = new ArrayList<>();
-                pionki6 = new ArrayList<>();
                 wierzGracza1 = new ArrayList<>();
                 wierzGracza2 = new ArrayList<>();
                 wierzGracza3 = new ArrayList<>();
@@ -210,13 +186,6 @@ public class PoczatkoweUstawienia extends Plansza {
                     setZawartoscTablicyOdInt(wierzcholek5.get(i).getX(), wierzcholek5.get(i).getY(), 5);
                     setZawartoscTablicyOdInt(wierzcholek6.get(i).getX(), wierzcholek6.get(i).getY(), 6);
 
-                    pionki1.add(wierzcholek1.get(i));
-                    pionki2.add(wierzcholek2.get(i));
-                    pionki3.add(wierzcholek3.get(i));
-                    pionki4.add(wierzcholek4.get(i));
-                    pionki5.add(wierzcholek5.get(i));
-                    pionki6.add(wierzcholek6.get(i));
-
                     wierzGracza1.add(wierzcholek4.get(i));
                     wierzGracza2.add(wierzcholek5.get(i));
                     wierzGracza3.add(wierzcholek6.get(i));
@@ -225,12 +194,12 @@ public class PoczatkoweUstawienia extends Plansza {
                     wierzGracza6.add(wierzcholek3.get(i));
                 }
 
-                gracz1 = new Gracz(1, pionki1, wierzGracza1, false);
-                gracz2 = new Gracz(2, pionki2, wierzGracza2, false);
-                gracz3 = new Gracz(3, pionki3, wierzGracza3, false);
-                gracz4 = new Gracz(4, pionki4, wierzGracza4, false);
-                gracz5 = new Gracz(5, pionki5, wierzGracza5, false);
-                gracz6 = new Gracz(6, pionki6, wierzGracza6, false);
+                listaGraczy.add(gracz1 = new Gracz(1, wierzGracza1, false));
+                listaGraczy.add(gracz2 = new Gracz(2, wierzGracza2, false));
+                listaGraczy.add(gracz3 = new Gracz(3, wierzGracza3, false));
+                listaGraczy.add(gracz4 = new Gracz(4, wierzGracza4, false));
+                listaGraczy.add(gracz5 = new Gracz(5, wierzGracza5, false));
+                listaGraczy.add(gracz6 = new Gracz(6, wierzGracza6, false));
 
                 break;
 
