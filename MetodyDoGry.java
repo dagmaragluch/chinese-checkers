@@ -6,5 +6,9 @@ public interface MetodyDoGry {
 
     void czy_wygral();
 
+    void wykonaj_ture();
+
+    void ruch_bota();
+
 
 }
