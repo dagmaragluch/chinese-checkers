@@ -9,15 +9,15 @@ import java.util.StringTokenizer;
 
 public class Serwer {
 
-    private final static int port = 12345;
-    ArrayList<Player> players = new ArrayList<>();
+    private final static int port = 12370;
+    static ArrayList<Player> players = new ArrayList<>();
     ServerSocket listener;
     private boolean isrunning = false;
 
-    PoczatkoweUstawienia poczatkoweUstawienia = new PoczatkoweUstawienia();
-    int currentPlayer;
-    int liczbaZalogowanychGraczy = 0;
-    int index = 0;
+    Integer iluGraczy;
+    static int currentPlayer = 0;
+    static int liczbaZalogowanychGraczy = 0;
+    static int index = 0;
 
 
     public Serwer(int port) {
@@ -44,21 +44,27 @@ public class Serwer {
 
     private void listening() throws IOException {
         while (isrunning) {
-            if (players.isEmpty()) {
+			if (iluGraczy == null) {
                 players.add(new Player(listener.accept(), liczbaZalogowanychGraczy));
                 players.get(liczbaZalogowanychGraczy).start();
+                players.get(liczbaZalogowanychGraczy).send("NOWA");
                 liczbaZalogowanychGraczy++;
-            } else if (players.size() <= poczatkoweUstawienia.iluGraczy) {     //w przyszlości od iluGraczy-ileBotow
+            } else if (players.size() <= iluGraczy) {     //w przyszlości od iluGraczy-ileBotow
                 players.add(new Player(listener.accept(), liczbaZalogowanychGraczy));
                 players.get(liczbaZalogowanychGraczy).start();
-                liczbaZalogowanychGraczy++;
-            }
-
+                players.get(liczbaZalogowanychGraczy).send("START;" + liczbaZalogowanychGraczy+1 + ";" + iluGraczy);
+                liczbaZalogowanychGraczy++;                
+            } else {
+            	Player p = new Player(listener.accept(),99);
+                p.send("FULL");
+                p.s.close();
+            };
+            if (players.size()==iluGraczy) sendAll("TURA" + ";" + currentPlayer+1);
         }
     }
 
 
-    public int setCurrentPlayer() {
+    public static int setCurrentPlayer() {
         currentPlayer = index;
         index++;
         if (index == players.size()) {
@@ -68,9 +74,9 @@ public class Serwer {
     }
 
 
-    public void sendAll() {
+    public static void sendAll(String msg) {
         for(int i = 0; i<players.size(); i++){
-
+        	players.get(i).send(msg);
         }
     }
 
@@ -80,20 +86,11 @@ public class Serwer {
 /*****************************/
 
 class Player extends Thread {
-    private final static int port = 12345;
-    Serwer serwer = new Serwer(port);
-
     private int id;
     private boolean czyZalogowany;
     private DataInputStream is;
     private DataOutputStream os;
     public Socket s;
-
-    boolean czyWywolanoPoczUst = false;
-    PoczatkoweUstawienia poczatkoweUstawienia = new PoczatkoweUstawienia();
-
-   // Gra gra = new Gra(poczatkoweUstawienia.iluGraczy);
-
 
     public Player(Socket s, int id) {
         this.s = s;
@@ -112,40 +109,44 @@ class Player extends Thread {
     @Override
     public void run() {
         String received;
-        while (true) {
-
-            if (id == serwer.setCurrentPlayer()) {
+        while (czyZalogowany) {
+            try {
+                received = is.readUTF();
+                inputhandler(received);
+            } catch (IOException e) {
                 try {
-                    if (!czyWywolanoPoczUst) {     //dodać Player id
-                        //i tu poczatkowe ustawienia wrzucic
+                    s.close();
+                    czyZalogowany = false;
+                    if(Serwer.players.contains(this)) {
+                        Serwer.players.remove(this);
                     }
-                    received = is.readUTF();
-                    inputhandler(received);
-                    serwer.setCurrentPlayer();
-
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
                 }
             }
+        }
+        try {
+            this.is.close();
+            this.os.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
 
     private void inputhandler(String received) {
-        if (received.equals("START")) {
-        } else if (received.equals("RUCH")) {
+        if (received.startsWith("RUCH")) {
             ruch(received);
-        }   //i to rozbudowac, przrobic itd.
+        } else if (received.startsWith("TURA")){
+        	Serwer.setCurrentPlayer();
+        	Serwer.sendAll("TURA" + ";" + Serwer.currentPlayer+1);
+        }
     }
 
 
     public void ruch(String received) {
-        StringTokenizer st = new StringTokenizer(received, ";");
-        st.nextToken();
-        int x = Integer.parseInt(st.nextToken());
-        int y = Integer.parseInt(st.nextToken());
-
-        //gra.wykonaj_ruch(x, y);
+        Serwer.sendAll(received);
     }
 
 
@@ -153,6 +154,7 @@ class Player extends Thread {
         try {
             os.writeUTF(msg);
             os.flush();
+            System.out.println(msg);
         } catch (IOException ex) {
             ex.printStackTrace();
 
