@@ -9,15 +9,16 @@ import java.util.StringTokenizer;
 
 public class Serwer {
 
-    private final static int port = 12370;
+    private final static int port = 12372;
     static ArrayList<Player> players = new ArrayList<>();
     ServerSocket listener;
     private boolean isrunning = false;
 
-    Integer iluGraczy;
+    static Integer iluGraczy;
     static int currentPlayer = 0;
     static int liczbaZalogowanychGraczy = 0;
     static int index = 0;
+	static int iluBotow;
 
 
     public Serwer(int port) {
@@ -48,6 +49,8 @@ public class Serwer {
                 players.add(new Player(listener.accept(), liczbaZalogowanychGraczy));
                 players.get(liczbaZalogowanychGraczy).start();
                 players.get(liczbaZalogowanychGraczy).send("NOWA");
+                iluGraczy = players.get(liczbaZalogowanychGraczy).value1;
+                System.out.println(iluGraczy);
                 liczbaZalogowanychGraczy++;
             } else if (players.size() <= iluGraczy) {     //w przyszlości od iluGraczy-ileBotow
                 players.add(new Player(listener.accept(), liczbaZalogowanychGraczy));
@@ -91,6 +94,9 @@ class Player extends Thread {
     private DataInputStream is;
     private DataOutputStream os;
     public Socket s;
+    private StringTokenizer st;
+    int value1, value2;
+
 
     public Player(Socket s, int id) {
         this.s = s;
@@ -136,7 +142,13 @@ class Player extends Thread {
 
 
     private void inputhandler(String received) {
-        if (received.startsWith("RUCH")) {
+    	System.out.println(received);
+    	if (received.startsWith("OPEN")) {
+    		st = new StringTokenizer(received,";");
+            st.nextToken();
+            //tutaj dodac ustawienie ilu graczy
+    	}
+    	else if (received.startsWith("RUCH")) {
             ruch(received);
         } else if (received.startsWith("TURA")){
         	Serwer.setCurrentPlayer();

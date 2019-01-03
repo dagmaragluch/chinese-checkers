@@ -21,21 +21,22 @@ public class Client extends Application{
 	
 	private static DataInputStream dis;
     private static DataOutputStream dos;    
-    private final static int ServerPort = 12370;
+    private final static int ServerPort = 12372;
     private Socket s;
     private Thread readMessage;
     private String info;
     private StringTokenizer st;
     public Gra board;
     private static Integer mojkolor;
-    public static Integer czyjaTura;
+    public static Integer czyjaTura = 1;
     private Integer ilegraczy, ilebotow;
     
-    static Stage primaryStage;
+    static Stage stage;
 	private Scene start, gra;
 	private GridPane plan;
 	
-	Client(){
+	@Override
+	public void init(){
 		try {
             InetAddress ip = InetAddress.getByName("localhost");
             s = new Socket(ip, ServerPort);
@@ -82,18 +83,14 @@ public class Client extends Application{
         }
     }
     
-    private void inputhandler(){
+    public void inputhandler(){
     	System.out.println(info);
     	if(info != null){
-			if(info.startsWith("NOWA")){
-				mojkolor = 1;
-			}
-			else if(info.startsWith("START")){
+			if(info.startsWith("START")){
                 st = new StringTokenizer(info,";");
                 st.nextToken();
                 mojkolor = Integer.parseInt(st.nextToken());
                 ilegraczy = Integer.parseInt(st.nextToken());
-                
             }
 			else if (info.startsWith("RUCH")) {
 				nowyruch(info);
@@ -109,9 +106,7 @@ public class Client extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		
-		Client c = new Client();
-        
+		        
 		primaryStage.setTitle("Trylma");
 		
 		//Zawartosc okna startowego
@@ -160,13 +155,13 @@ public class Client extends Application{
 
 		plan.setPadding(new Insets(10,20,10,20));
 		gra = new Scene(trybgry, 610, 750);
-
-		if (mojkolor != null && ilegraczy != null) {
-			zbudujplansze();
-    		primaryStage.setScene(gra);
-        }else primaryStage.setScene(start);
 		
-		Client.primaryStage=primaryStage;
+		if(ilegraczy != null) {
+			zbudujplansze();
+			primaryStage.setScene(gra);
+		}
+		else primaryStage.setScene(start);
+		
 		primaryStage.setResizable(false);
 		primaryStage.show();
 		
@@ -204,8 +199,8 @@ public class Client extends Application{
 
 			if(mojatura()) {
 				Pole temp = (Pole)evt.getSource();
-				ParaWspolrzednych ruch = board.ruch(plan.getRowIndex(temp), plan.getColumnIndex(temp));
-				send("RUCH;" + board.staryX + ";" + board.staryY + ";" + ruch.getX() + ";" + ruch.getY() + ";" + mojkolor);
+				//ParaWspolrzednych ruch = board.ruch(plan.getRowIndex(temp), plan.getColumnIndex(temp));
+				//send("RUCH;" + board.staryX + ";" + board.staryY + ";" + ruch.getX() + ";" + ruch.getY() + ";" + mojkolor);
 			}
 
 		}
