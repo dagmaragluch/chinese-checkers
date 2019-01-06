@@ -95,7 +95,7 @@ public class Client extends Application{
                 System.out.println(mojkolor + "/" + ilegraczy);
                 if(mojkolor == ilegraczy) send("TURA");
 			}
-			if(info.startsWith("FULL")){
+			else if(info.startsWith("FULL")){
 				System.out.println("Serwer pelny");
 				try {
 					s.close();
@@ -112,8 +112,23 @@ public class Client extends Application{
                 st.nextToken();
                 czyjaTura = Integer.parseInt(st.nextToken());
 			}
+			else if (info.startsWith("BOT")) {
+				poruszboty();
+			}
 		}
     }
+
+
+	private void poruszboty() {
+		for (int i=ilegraczy+1; i<=ilegraczy+ilebotow; i++) {
+			board.ruch_bota(i);
+			if (!board.zmiany.isEmpty()) {
+				send("RUCH;" + board.zmiany.get(0) + ";" + board.zmiany.get(1) + ";" + board.zmiany.get(2) + ";" + board.zmiany.get(3) + ";" + i);
+				board.zmiany.clear();
+			}
+		}
+		
+	}
 
 
 	@Override
