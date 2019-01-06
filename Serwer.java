@@ -12,12 +12,10 @@ public class Serwer {
     private final static int port = 12372;
     static ArrayList<Player> players = new ArrayList<>();
     ServerSocket listener;
-    private boolean isrunning = false;
+    private volatile boolean isrunning = false;
 
-    static Integer iluGraczy;
+    private static Integer iluGraczy = 1;
     static int currentPlayer = 0;
-    static int liczbaZalogowanychGraczy = 0;
-    static int index = 0;
 	static int iluBotow;
 
 
@@ -45,36 +43,31 @@ public class Serwer {
 
     private void listening() throws IOException {
         while (isrunning) {
-			if (iluGraczy == null) {
-                players.add(new Player(listener.accept(), liczbaZalogowanychGraczy));
-                players.get(liczbaZalogowanychGraczy).start();
-                players.get(liczbaZalogowanychGraczy).send("NOWA");
-                iluGraczy = players.get(liczbaZalogowanychGraczy).value1;
-                System.out.println(iluGraczy);
-                liczbaZalogowanychGraczy++;
-            } else if (players.size() <= iluGraczy) {     //w przyszlości od iluGraczy-ileBotow
-                players.add(new Player(listener.accept(), liczbaZalogowanychGraczy));
-                players.get(liczbaZalogowanychGraczy).start();
-                players.get(liczbaZalogowanychGraczy).send("START;" + liczbaZalogowanychGraczy+1 + ";" + iluGraczy);
-                liczbaZalogowanychGraczy++;                
-            } else {
-            	Player p = new Player(listener.accept(),99);
+			if (players.size() < iluGraczy) {
+                players.add(new Player(listener.accept(), players.size()));
+                players.get(players.size()-1).start();
+                if (players.size() == 1) {
+                	players.get(players.size()-1).send("NOWA");
+                	iluGraczy = players.get(players.size()-1).value1;//w przyszlości od iluGraczy-ileBotow
+                }
+                else players.get(players.size()-1).send("START;" + players.size() + ";" + iluGraczy);
+            } else if (players.size()==iluGraczy){
+            	Player p = new Player(listener.accept(),99);                
                 p.send("FULL");
                 p.s.close();
-            };
-            if (players.size()==iluGraczy) sendAll("TURA" + ";" + currentPlayer+1);
+            };  
         }
     }
 
 
     public static int setCurrentPlayer() {
-        currentPlayer = index;
-        index++;
-        if (index == players.size()) {
-            index = 0;
+        currentPlayer++;
+        if (currentPlayer == players.size()+1) {
+            currentPlayer = 1;
         }
         return currentPlayer;
     }
+    
 
 
     public static void sendAll(String msg) {
@@ -82,6 +75,29 @@ public class Serwer {
         	players.get(i).send(msg);
         }
     }
+    
+    public static void setIluGraczy(int a) {
+    	iluGraczy=a;
+    }
+    public static int getIluGraczy() {
+    	return iluGraczy;
+    }
+    
+    public static void exit(Player player){
+        if(players.contains(player)) {
+            players.remove(player);
+        }
+    }
+
+    public void shutdown(){
+        isrunning = false;
+        try {
+            listener.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
 
@@ -96,7 +112,6 @@ class Player extends Thread {
     public Socket s;
     private StringTokenizer st;
     int value1, value2;
-
 
     public Player(Socket s, int id) {
         this.s = s;
@@ -123,9 +138,7 @@ class Player extends Thread {
                 try {
                     s.close();
                     czyZalogowany = false;
-                    if(Serwer.players.contains(this)) {
-                        Serwer.players.remove(this);
-                    }
+                    Serwer.exit(this);
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -146,14 +159,18 @@ class Player extends Thread {
     	if (received.startsWith("OPEN")) {
     		st = new StringTokenizer(received,";");
             st.nextToken();
-            //tutaj dodac ustawienie ilu graczy
+            Serwer.setIluGraczy(Integer.parseInt(st.nextToken()));
     	}
     	else if (received.startsWith("RUCH")) {
             ruch(received);
-        } else if (received.startsWith("TURA")){
-        	Serwer.setCurrentPlayer();
-        	Serwer.sendAll("TURA" + ";" + Serwer.currentPlayer+1);
+        } 
+    	else if (received.startsWith("TURA")){
+        	Serwer.sendAll("TURA" + ";" + Serwer.setCurrentPlayer());
         }
+    	else if (received.startsWith("KONIEC")){
+    		send("KONIEC");
+    		Serwer.exit(this);
+    	}
     }
 
 

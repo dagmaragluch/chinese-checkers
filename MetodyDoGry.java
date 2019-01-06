@@ -1,14 +1,14 @@
-public interface MetodyDoGry {
+import java.util.ArrayList;
 
-    void skonczylem();
+public interface MetodyDoGry {
     
     void wykonaj_ruch(int x, int y);
 
-    void czy_wygral();
-
-    void wykonaj_ture();
+    boolean czy_wygral();
 
     void ruch_bota();
+
+	void nowatura();
 
 
 }

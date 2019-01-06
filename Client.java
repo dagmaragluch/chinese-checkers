@@ -2,6 +2,7 @@ import java.io.*;
 
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import javafx.application.Application;
@@ -27,9 +28,9 @@ public class Client extends Application{
     private String info;
     private StringTokenizer st;
     public Gra board;
-    private static Integer mojkolor;
-    public static Integer czyjaTura = 1;
-    private Integer ilegraczy, ilebotow;
+    private Integer mojkolor;
+    public static Integer czyjaTura = 0;
+    private Integer ilegraczy, ilebotow = 0;
     
     static Stage stage;
 	private Scene start, gra;
@@ -49,7 +50,6 @@ public class Client extends Application{
         }
         createreadthread();
         readMessage.start();
-        System.out.println("Connected");
 	}
 
 
@@ -60,6 +60,7 @@ public class Client extends Application{
                 while (true) {
                     try {
                         info = dis.readUTF();
+                        System.out.println("Connected");
                     } catch (IOException e) {
                         try {
                         	e.printStackTrace();
@@ -91,7 +92,18 @@ public class Client extends Application{
                 st.nextToken();
                 mojkolor = Integer.parseInt(st.nextToken());
                 ilegraczy = Integer.parseInt(st.nextToken());
-            }
+                System.out.println(mojkolor + "/" + ilegraczy);
+                if(mojkolor == ilegraczy) send("TURA");
+			}
+			if(info.startsWith("FULL")){
+				System.out.println("Serwer pelny");
+				try {
+					s.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+                System.exit(1);
+			}
 			else if (info.startsWith("RUCH")) {
 				nowyruch(info);
 			}
@@ -140,7 +152,7 @@ public class Client extends Application{
 		Button zakonczture = new Button("Zakoncz Ture");
 		zakonczture.setOnAction(e -> {
 			send("TURA");
-			
+			board.nowatura();
 		});
 		
 		plan = new GridPane();
@@ -169,7 +181,7 @@ public class Client extends Application{
 	}
 	
 	public void zbudujplansze() {
-		this.board = new Gra(ilegraczy, mojkolor);
+		this.board = new Gra(ilegraczy, ilebotow, mojkolor);
 		for (int i = 0; i < 17; i++) {
 			for (int j = 0; j < 25; j++) {
 				ColumnConstraints column = new ColumnConstraints(22);
@@ -196,24 +208,28 @@ public class Client extends Application{
 
 		@Override
 		public void handle(Event evt) {
-
 			if(mojatura()) {
 				Pole temp = (Pole)evt.getSource();
-				//ParaWspolrzednych ruch = board.ruch(plan.getRowIndex(temp), plan.getColumnIndex(temp));
-				//send("RUCH;" + board.staryX + ";" + board.staryY + ";" + ruch.getX() + ";" + ruch.getY() + ";" + mojkolor);
+				board.wykonaj_ruch(plan.getRowIndex(temp), plan.getColumnIndex(temp));
+				if (!board.zmiany.isEmpty()) {
+					send("RUCH;" + board.zmiany.get(0) + ";" + board.zmiany.get(1) + ";" + board.zmiany.get(2) + ";" + board.zmiany.get(3) + ";" + mojkolor);
+					board.zmiany.clear();
+				}
+				if(board.czy_wygral())send("KONIEC");
 			}
 
 		}
 	}
 	
-	private static boolean mojatura() {
-		System.out.println(czyjaTura + "" + mojkolor);
+	private boolean mojatura() {
+		System.out.println(czyjaTura + " " + mojkolor);
 		if(czyjaTura == mojkolor) return true;
 		return false;
 	}
 	
 	public static void main(String[] args) throws Exception {
-		launch();
+		Client c = new Client();
+		c.launch();
 	}
 			  
 }
