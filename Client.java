@@ -202,8 +202,8 @@ public class Client extends Application{
 				ColumnConstraints column = new ColumnConstraints(22);
 				plan.getColumnConstraints().add(column);
 				try {
-					plan.add(board.betaSerwer.plansza.tablica[i][j], j, i, 1, 1);
-					board.betaSerwer.plansza.tablica[i][j].addEventHandler(MouseEvent.MOUSE_CLICKED, new MyEventHandler());
+					plan.add(board.sterowanie.plansza.tablica[i][j], j, i, 1, 1);
+					board.sterowanie.plansza.tablica[i][j].addEventHandler(MouseEvent.MOUSE_CLICKED, new MyEventHandler());
 				}
 				catch (NullPointerException n) {}
 			}
@@ -215,8 +215,8 @@ public class Client extends Application{
 	public void nowyruch(String msg) {
 		st = new StringTokenizer(msg,";");
         st.nextToken();
-        board.betaSerwer.plansza.setZawartoscTablicyOdInt(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), 0);
-        board.betaSerwer.plansza.setZawartoscTablicyOdInt(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+        board.sterowanie.plansza.setZawartoscTablicyOdInt(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), 0);
+        board.sterowanie.plansza.setZawartoscTablicyOdInt(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
 	}
 	
 	private class MyEventHandler implements EventHandler<Event>{ //co robi klikniecie NA POLE

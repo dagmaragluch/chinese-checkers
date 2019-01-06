@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class BetaSerwer implements MetodySerwera {
+public class Sterowanie implements MetodySterujace {
 
     Plansza plansza;
     ArrayList<ParaWspolrzednych> listaPodswietlanychPol = new ArrayList<>();
@@ -9,7 +9,7 @@ public class BetaSerwer implements MetodySerwera {
 
 
     @Override
-    public void gdzie_mozna_przesunac(int x, int y) {  //czy rozdzielić Arraylisty podswitlanych pol na dwie ???
+    public void gdzie_mozna_przesunac(int x, int y) {
 
         if(plansza.getZawartoscTablicy(x+1, y+1) == 0){
             listaPodswietlanychPol1.add(new ParaWspolrzednych(x+1, y+1));

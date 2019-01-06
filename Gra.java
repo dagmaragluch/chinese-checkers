@@ -4,7 +4,7 @@ import java.util.Random;
 public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
 
     Random random = new Random();
-    BetaSerwer betaSerwer = new BetaSerwer();
+    Sterowanie sterowanie = new Sterowanie();
 
     private int staryX;
     private int staryY;
@@ -19,7 +19,7 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
         ustawPionki(a+b);
         wprowadzBoty(b);
         this.mojkolor = mojkolor;
-        this.betaSerwer.plansza = this;
+        this.sterowanie.plansza = this;
         this.iluGraczy = a;
         this.ileBotow = b;  //zamienić na b
         this.tengracz = listaGraczy.get(mojkolor-1);
@@ -37,21 +37,21 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
         if (!czyostatni) {
             if (ruch == 0) {
                 if (mojkolor == getZawartoscTablicy(x, y)) { //petla liczaca mozliwosci
-                    for (ParaWspolrzednych pw : betaSerwer.listaPodswietlanychPol) { //wymazanie podswietlen
-                        betaSerwer.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 0);
+                    for (ParaWspolrzednych pw : sterowanie.listaPodswietlanychPol) { //wymazanie podswietlen
+                        sterowanie.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 0);
                     }
-                    betaSerwer.wyczysc();
-                    betaSerwer.gdzie_mozna_przesunac(x, y); //dwa rodzaje ruchow sa dostepne
-                    betaSerwer.gdzie_mozna_przeskoczyc(x, y);
-                    for (ParaWspolrzednych pw : betaSerwer.listaPodswietlanychPol) { //podswietlanie pol
-                        betaSerwer.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 8);
+                    sterowanie.wyczysc();
+                    sterowanie.gdzie_mozna_przesunac(x, y); //dwa rodzaje ruchow sa dostepne
+                    sterowanie.gdzie_mozna_przeskoczyc(x, y);
+                    for (ParaWspolrzednych pw : sterowanie.listaPodswietlanychPol) { //podswietlanie pol
+                        sterowanie.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 8);
                     }
                     staryX = x; //zapamietujemy wspolrzedne (poczatek pierwszego podruchu)
                     staryY = y;
                     return;
                 }
             }
-            for (ParaWspolrzednych para : betaSerwer.listaPodswietlanychPol2) {
+            for (ParaWspolrzednych para : sterowanie.listaPodswietlanychPol2) {
                 if (x == para.getX() && y == para.getY()) { //sprawdzamy, czy wybrano przeskok
 
                 	zmiany.add(staryX);
@@ -59,14 +59,14 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
                 	zmiany.add(x);
                 	zmiany.add(y);
 
-                    for (ParaWspolrzednych pw : betaSerwer.listaPodswietlanychPol) { //wymazanie pod�wietle�
-                        betaSerwer.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 0);
+                    for (ParaWspolrzednych pw : sterowanie.listaPodswietlanychPol) { //wymazanie pod�wietle�
+                        sterowanie.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 0);
                     }
-                    betaSerwer.wyczysc();
+                    sterowanie.wyczysc();
 
-                    betaSerwer.gdzie_mozna_przeskoczyc(x, y);
-                    for (ParaWspolrzednych pw : betaSerwer.listaPodswietlanychPol) { //nowe pod�wietlanie
-                        betaSerwer.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 8);
+                    sterowanie.gdzie_mozna_przeskoczyc(x, y);
+                    for (ParaWspolrzednych pw : sterowanie.listaPodswietlanychPol) { //nowe pod�wietlanie
+                        sterowanie.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 8);
                     }
 
                     staryX = x; //mozemy dalej sie ruszac, wiec zapisujemy nowe wspolrzedne
@@ -75,7 +75,7 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
                     return;
                 }
             }
-            for (ParaWspolrzednych para : betaSerwer.listaPodswietlanychPol1) {
+            for (ParaWspolrzednych para : sterowanie.listaPodswietlanychPol1) {
                 if (x == para.getX() && y == para.getY()) { //jezli wybrano pojedynczy ruch
                 	
                 	zmiany.add(staryX);
@@ -84,10 +84,10 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
                 	zmiany.add(y);
 
 
-                    for (ParaWspolrzednych pw : betaSerwer.listaPodswietlanychPol) { //wymazujemy podswietlenia i nie szukamy dalszych ruchow
-                        betaSerwer.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 0);
+                    for (ParaWspolrzednych pw : sterowanie.listaPodswietlanychPol) { //wymazujemy podswietlenia i nie szukamy dalszych ruchow
+                        sterowanie.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 0);
                     }
-                    betaSerwer.wyczysc();
+                    sterowanie.wyczysc();
                     ruch++;
                     czyostatni = true;
                     return;
@@ -112,27 +112,22 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
     }
 
     @Override
-    public void ruch_bota(int kolor) {
+    public void ruch_bota() {
         int i;
-        Gracz bot = listaGraczy.get(kolor-1);
 
         do {             //wybor pionka tak dlugo az tym pionkiem mozna sie ruszyc
             i = random.nextInt(10);
-            betaSerwer.wyczysc();
-            betaSerwer.gdzie_mozna_przesunac(bot.pionki.get(i).getX(), bot.pionki.get(i).getY());
-            betaSerwer.gdzie_mozna_przeskoczyc(bot.pionki.get(i).getX(), bot.pionki.get(i).getY());
+            sterowanie.wyczysc();
+            sterowanie.gdzie_mozna_przesunac(tengracz.pionki.get(i).getX(), tengracz.pionki.get(i).getY());
+            sterowanie.gdzie_mozna_przeskoczyc(tengracz.pionki.get(i).getX(), tengracz.pionki.get(i).getY());
         }
-        while (betaSerwer.listaPodswietlanychPol.isEmpty());
+        while (sterowanie.listaPodswietlanychPol.isEmpty());
 
         //implementacja jednego, domyslnego podruchu bota
 
-        zmiany.add(bot.pionki.get(i).getX());
-        zmiany.add(bot.pionki.get(i).getY());
-        zmiany.add(betaSerwer.listaPodswietlanychPol.get(1).getX());
-        zmiany.add(betaSerwer.listaPodswietlanychPol.get(1).getY());
-        
-        
-        bot.pionki.set(i, new ParaWspolrzednych(betaSerwer.listaPodswietlanychPol.get(1).getX(), betaSerwer.listaPodswietlanychPol.get(1).getY()));
+        setZawartoscTablicyOdInt(tengracz.pionki.get(i).getX(), tengracz.pionki.get(i).getY(), 0);
+        setZawartoscTablicyOdInt(sterowanie.listaPodswietlanychPol.get(0).getX(), sterowanie.listaPodswietlanychPol.get(0).getY(), tengracz.getKolorGracza());
+        tengracz.pionki.set(i, new ParaWspolrzednych(sterowanie.listaPodswietlanychPol.get(0).getX(), sterowanie.listaPodswietlanychPol.get(0).getY()));
 
 //            staryX = tengracz.pionki.get(i).getX();
 //            staryY = tengracz.pionki.get(i).getY();

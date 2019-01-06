@@ -1,6 +1,4 @@
-public interface MetodySerwera {
-
-     //boolean czy_mozna_sie_ruszyc();
+public interface MetodySterujace {
 
     void gdzie_mozna_przesunac(int x, int y);
 
