@@ -112,22 +112,27 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
     }
 
     @Override
-    public void ruch_bota() {
+    public void ruch_bota(int kolor) {
         int i;
+        Gracz bot = listaGraczy.get(kolor-1);
 
         do {             //wybor pionka tak dlugo az tym pionkiem mozna sie ruszyc
             i = random.nextInt(10);
             betaSerwer.wyczysc();
-            betaSerwer.gdzie_mozna_przesunac(tengracz.pionki.get(i).getX(), tengracz.pionki.get(i).getY());
-            betaSerwer.gdzie_mozna_przeskoczyc(tengracz.pionki.get(i).getX(), tengracz.pionki.get(i).getY());
+            betaSerwer.gdzie_mozna_przesunac(bot.pionki.get(i).getX(), bot.pionki.get(i).getY());
+            betaSerwer.gdzie_mozna_przeskoczyc(bot.pionki.get(i).getX(), bot.pionki.get(i).getY());
         }
         while (betaSerwer.listaPodswietlanychPol.isEmpty());
 
         //implementacja jednego, domyslnego podruchu bota
 
-        setZawartoscTablicyOdInt(tengracz.pionki.get(i).getX(), tengracz.pionki.get(i).getY(), 0);
-        setZawartoscTablicyOdInt(betaSerwer.listaPodswietlanychPol.get(1).getX(), betaSerwer.listaPodswietlanychPol.get(1).getY(), tengracz.getKolorGracza());
-        tengracz.pionki.set(i, new ParaWspolrzednych(betaSerwer.listaPodswietlanychPol.get(1).getX(), betaSerwer.listaPodswietlanychPol.get(1).getY()));
+        zmiany.add(bot.pionki.get(i).getX());
+        zmiany.add(bot.pionki.get(i).getY());
+        zmiany.add(betaSerwer.listaPodswietlanychPol.get(1).getX());
+        zmiany.add(betaSerwer.listaPodswietlanychPol.get(1).getY());
+        
+        
+        bot.pionki.set(i, new ParaWspolrzednych(betaSerwer.listaPodswietlanychPol.get(1).getX(), betaSerwer.listaPodswietlanychPol.get(1).getY()));
 
 //            staryX = tengracz.pionki.get(i).getX();
 //            staryY = tengracz.pionki.get(i).getY();
