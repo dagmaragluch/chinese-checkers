@@ -92,6 +92,7 @@ public class Client extends Application{
                 st.nextToken();
                 mojkolor = Integer.parseInt(st.nextToken());
                 ilegraczy = Integer.parseInt(st.nextToken());
+                ilebotow = Integer.parseInt(st.nextToken());
                 System.out.println(mojkolor + "/" + ilegraczy);
                 if(mojkolor == ilegraczy) send("TURA");
 			}
@@ -151,6 +152,7 @@ public class Client extends Application{
 			send("OPEN;" + (int)liczbagraczy.getValue() + ";PLAYERS;" + (int)liczbabotow.getValue() +";BOTS");
 			mojkolor = 1;
 			ilegraczy = (int)liczbagraczy.getValue();
+			ilebotow = (int)liczbabotow.getValue();
 			zbudujplansze();
 	    	primaryStage.setScene(gra);
 		});
@@ -196,14 +198,14 @@ public class Client extends Application{
 	}
 	
 	public void zbudujplansze() {
-		this.board = new Gra(ilegraczy, ilebotow, mojkolor);
+		this.board = new Gra(ilegraczy+ilebotow, mojkolor);
 		for (int i = 0; i < 17; i++) {
 			for (int j = 0; j < 25; j++) {
 				ColumnConstraints column = new ColumnConstraints(22);
 				plan.getColumnConstraints().add(column);
 				try {
-					plan.add(board.sterowanie.plansza.tablica[i][j], j, i, 1, 1);
-					board.sterowanie.plansza.tablica[i][j].addEventHandler(MouseEvent.MOUSE_CLICKED, new MyEventHandler());
+					plan.add(board.betaSerwer.plansza.tablica[i][j], j, i, 1, 1);
+					board.betaSerwer.plansza.tablica[i][j].addEventHandler(MouseEvent.MOUSE_CLICKED, new MyEventHandler());
 				}
 				catch (NullPointerException n) {}
 			}
@@ -215,8 +217,8 @@ public class Client extends Application{
 	public void nowyruch(String msg) {
 		st = new StringTokenizer(msg,";");
         st.nextToken();
-        board.sterowanie.plansza.setZawartoscTablicyOdInt(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), 0);
-        board.sterowanie.plansza.setZawartoscTablicyOdInt(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+        board.betaSerwer.plansza.setZawartoscTablicyOdInt(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), 0);
+        board.betaSerwer.plansza.setZawartoscTablicyOdInt(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
 	}
 	
 	private class MyEventHandler implements EventHandler<Event>{ //co robi klikniecie NA POLE
@@ -230,7 +232,7 @@ public class Client extends Application{
 					send("RUCH;" + board.zmiany.get(0) + ";" + board.zmiany.get(1) + ";" + board.zmiany.get(2) + ";" + board.zmiany.get(3) + ";" + mojkolor);
 					board.zmiany.clear();
 				}
-				if(board.czy_wygral())send("KONIEC");
+				if(board.czy_wygral(mojkolor))send("KONIEC");
 			}
 
 		}

@@ -14,9 +14,9 @@ public class Serwer {
     ServerSocket listener;
     private volatile boolean isrunning = false;
 
-    private static Integer iluGraczy = 1;
+    static Integer iluGraczy = 1;
     static int currentPlayer = 0;
-    static int iluBotow;
+	static int iluBotow;
 
 
     public Serwer(int port) {
@@ -43,19 +43,19 @@ public class Serwer {
 
     private void listening() throws IOException {
         while (isrunning) {
-            if (players.size() < iluGraczy) {
+			if (players.size() < iluGraczy) {
                 players.add(new Player(listener.accept(), players.size()));
                 players.get(players.size()-1).start();
                 if (players.size() == 1) {
-                    players.get(players.size()-1).send("NOWA");
-                    iluGraczy = players.get(players.size()-1).value1;//w przyszlości od iluGraczy-ileBotow
+                	players.get(players.size()-1).send("NOWA");
+                	iluGraczy = players.get(players.size()-1).value1;//w przyszlości od iluGraczy-ileBotow
                 }
-                else players.get(players.size()-1).send("START;" + players.size() + ";" + iluGraczy);
+                else players.get(players.size()-1).send("START;" + players.size() + ";" + iluGraczy + ";" + iluBotow);
             } else if (players.size()==iluGraczy){
-                Player p = new Player(listener.accept(),99);
+            	Player p = new Player(listener.accept(),99);                
                 p.send("FULL");
                 p.s.close();
-            };
+            };  
         }
     }
 
@@ -63,26 +63,27 @@ public class Serwer {
     public static int setCurrentPlayer() {
         currentPlayer++;
         if (currentPlayer == players.size()+1) {
+        	players.get(0).send("BOT");
             currentPlayer = 1;
         }
         return currentPlayer;
     }
-
+    
 
 
     public static void sendAll(String msg) {
         for(int i = 0; i<players.size(); i++){
-            players.get(i).send(msg);
+        	players.get(i).send(msg);
         }
     }
-
+    
     public static void setIluGraczy(int a) {
-        iluGraczy=a;
+    	iluGraczy=a;
     }
     public static int getIluGraczy() {
-        return iluGraczy;
+    	return iluGraczy;
     }
-
+    
     public static void exit(Player player){
         if(players.contains(player)) {
             players.remove(player);
@@ -155,22 +156,24 @@ class Player extends Thread {
 
 
     private void inputhandler(String received) {
-        System.out.println(received);
-        if (received.startsWith("OPEN")) {
-            st = new StringTokenizer(received,";");
+    	System.out.println(received);
+    	if (received.startsWith("OPEN")) {
+    		st = new StringTokenizer(received,";");
             st.nextToken();
-            Serwer.setIluGraczy(Integer.parseInt(st.nextToken()));
-        }
-        else if (received.startsWith("RUCH")) {
+            Serwer.iluGraczy=Integer.parseInt(st.nextToken());
+            st.nextToken();
+            Serwer.iluBotow=Integer.parseInt(st.nextToken());
+    	}
+    	else if (received.startsWith("RUCH")) {
             ruch(received);
+        } 
+    	else if (received.startsWith("TURA")){
+        	Serwer.sendAll("TURA" + ";" + Serwer.setCurrentPlayer());
         }
-        else if (received.startsWith("TURA")){
-            Serwer.sendAll("TURA" + ";" + Serwer.setCurrentPlayer());
-        }
-        else if (received.startsWith("KONIEC")){
-            send("KONIEC");
-            Serwer.exit(this);
-        }
+    	else if (received.startsWith("KONIEC")){
+    		send("KONIEC");
+    		Serwer.exit(this);
+    	}
     }
 
 
