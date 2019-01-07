@@ -141,13 +141,13 @@ public class PoczatkoweUstawienia extends Plansza {
                     setZawartoscTablicyOdInt(wierzcholek6.get(i).getX(), wierzcholek6.get(i).getY(), 2);
                     setZawartoscTablicyOdInt(wierzcholek2.get(i).getX(), wierzcholek2.get(i).getY(), 3);
 
-                    pionki1.add(wierzcholek1.get(i));
-                    pionki2.add(wierzcholek3.get(i));
-                    pionki3.add(wierzcholek5.get(i));
+                    pionki1.add(wierzcholek4.get(i));
+                    pionki2.add(wierzcholek6.get(i));
+                    pionki3.add(wierzcholek2.get(i));
 
-                    wierzGracza1.add(wierzcholek4.get(i));
-                    wierzGracza2.add(wierzcholek6.get(i));
-                    wierzGracza3.add(wierzcholek2.get(i));
+                    wierzGracza1.add(wierzcholek1.get(i));
+                    wierzGracza2.add(wierzcholek3.get(i));
+                    wierzGracza3.add(wierzcholek5.get(i));
 
                 }
 
@@ -246,6 +246,10 @@ public class PoczatkoweUstawienia extends Plansza {
     public void wprowadzBoty(int b){
         int i = listaGraczy.size();
         int j = 0; //ile botow juz wstswiono
+
+        for(int a =0; a <listaGraczy.size(); a++){
+            System.out.println("kolor gracz "+ a +" = " + listaGraczy.get(a).getKolorGracza());
+        }
 
         while(j<b){     //boty wstawimy jako ostatnich graczy
             listaGraczy.get(i-1).setCzyBot(true);

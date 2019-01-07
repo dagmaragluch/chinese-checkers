@@ -77,7 +77,7 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
             }
             for (ParaWspolrzednych para : sterowanie.listaPodswietlanychPol1) {
                 if (x == para.getX() && y == para.getY()) { //jezli wybrano pojedynczy ruch
-                	
+
                 	zmiany.add(staryX);
                 	zmiany.add(staryY);
                 	zmiany.add(x);
@@ -100,8 +100,7 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
     public boolean czy_wygral() {
         liczbaPoprawnieZajetychPol = 0;
         for (ParaWspolrzednych para : tengracz.docelowyWierzcholek) {
-
-            if (this.getZawartoscTablicy(para.getX(), para.getY()) == tengracz.kolorGracza) {
+            if (getZawartoscTablicy(para.getX(), para.getY()) == tengracz.kolorGracza) {
                 liczbaPoprawnieZajetychPol++;
             }
         }
@@ -112,22 +111,27 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
     }
 
     @Override
-    public void ruch_bota() {
+    public void ruch_bota(int kolor) {
         int i;
+        Gracz bot = listaGraczy.get(kolor-1);
 
         do {             //wybor pionka tak dlugo az tym pionkiem mozna sie ruszyc
             i = random.nextInt(10);
             sterowanie.wyczysc();
-            sterowanie.gdzie_mozna_przesunac(tengracz.pionki.get(i).getX(), tengracz.pionki.get(i).getY());
-            sterowanie.gdzie_mozna_przeskoczyc(tengracz.pionki.get(i).getX(), tengracz.pionki.get(i).getY());
+            sterowanie.gdzie_mozna_przesunac(bot.pionki.get(i).getX(), bot.pionki.get(i).getY());
+            sterowanie.gdzie_mozna_przeskoczyc(bot.pionki.get(i).getX(), bot.pionki.get(i).getY());
         }
         while (sterowanie.listaPodswietlanychPol.isEmpty());
 
         //implementacja jednego, domyslnego podruchu bota
 
-        setZawartoscTablicyOdInt(tengracz.pionki.get(i).getX(), tengracz.pionki.get(i).getY(), 0);
-        setZawartoscTablicyOdInt(sterowanie.listaPodswietlanychPol.get(0).getX(), sterowanie.listaPodswietlanychPol.get(0).getY(), tengracz.getKolorGracza());
-        tengracz.pionki.set(i, new ParaWspolrzednych(sterowanie.listaPodswietlanychPol.get(0).getX(), sterowanie.listaPodswietlanychPol.get(0).getY()));
+        zmiany.add(bot.pionki.get(i).getX());
+        zmiany.add(bot.pionki.get(i).getY());
+        zmiany.add(sterowanie.listaPodswietlanychPol.get(1).getX());
+        zmiany.add(sterowanie.listaPodswietlanychPol.get(1).getY());
+
+
+        bot.pionki.set(i, new ParaWspolrzednych(sterowanie.listaPodswietlanychPol.get(1).getX(), sterowanie.listaPodswietlanychPol.get(1).getY()));
 
 //            staryX = tengracz.pionki.get(i).getX();
 //            staryY = tengracz.pionki.get(i).getY();
