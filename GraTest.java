@@ -1,5 +1,3 @@
-import static org.junit.Assert.*;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -19,6 +17,14 @@ public class GraTest extends PoczatkoweUstawienia {
     public void init() {
         gra = new Gra(4, mojkolor);
         Assert.assertNotNull(gra);
+    }
+
+    @Test
+    public void nowatura_test() {
+        init();
+        gra.nowatura();
+        Assert.assertEquals("ruch powinnien byc = 0", 0, gra.ruch);
+        Assert.assertFalse("czyostatni powinno byc false", gra.czyostatni);
     }
 
 

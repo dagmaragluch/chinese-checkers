@@ -4,12 +4,12 @@ import java.util.Random;
 public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
 
     Random random = new Random();
-    BetaSerwer betaSerwer = new BetaSerwer();
+    Sterowanie betaSerwer = new Sterowanie();
 
     private int staryX;
     private int staryY;
-    private int ruch = 0;
-    private boolean czyostatni = false;
+    protected int ruch = 0;
+    protected boolean czyostatni = false;
     private int mojkolor;
     int liczbaPoprawnieZajetychPol;
     public ArrayList<Integer> zmiany = new ArrayList<Integer>();

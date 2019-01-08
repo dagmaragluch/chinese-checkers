@@ -20,7 +20,4 @@ public class Gracz {
         return kolorGracza;
     }
 
-    public void setCzyBot(boolean czyBot) {
-        this.czyBot = czyBot;
-    }
 }

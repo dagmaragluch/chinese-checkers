@@ -12,7 +12,7 @@ public class Serwer {
     private final static int port = 12372;
     static ArrayList<Player> players = new ArrayList<>();
     ServerSocket listener;
-    private volatile boolean isrunning = false;
+    protected volatile boolean isrunning = false;
 
     static Integer iluGraczy = 1;
     static int currentPlayer = 0;
@@ -41,7 +41,7 @@ public class Serwer {
         }
     }
 
-    private void listening() throws IOException {
+    protected void listening() throws IOException {
         while (isrunning) {
 			if (players.size() < iluGraczy) {
                 players.add(new Player(listener.accept(), players.size()));
@@ -76,13 +76,13 @@ public class Serwer {
         	players.get(i).send(msg);
         }
     }
-    
-    public static void setIluGraczy(int a) {
-    	iluGraczy=a;
-    }
-    public static int getIluGraczy() {
-    	return iluGraczy;
-    }
+
+//    public static void setIluGraczy(int a) {
+//    	iluGraczy=a;
+//    }
+//    public static int getIluGraczy() {
+//    	return iluGraczy;
+//    }
     
     public static void exit(Player player){
         if(players.contains(player)) {
@@ -90,14 +90,14 @@ public class Serwer {
         }
     }
 
-    public void shutdown(){
-        isrunning = false;
-        try {
-            listener.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void shutdown(){
+//        isrunning = false;
+//        try {
+//            listener.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
 }
@@ -108,8 +108,8 @@ public class Serwer {
 class Player extends Thread {
     private int id;
     private boolean czyZalogowany;
-    private DataInputStream is;
-    private DataOutputStream os;
+    protected DataInputStream is;
+    protected DataOutputStream os;
     public Socket s;
     private StringTokenizer st;
     int value1, value2;
@@ -155,7 +155,7 @@ class Player extends Thread {
     }
 
 
-    private void inputhandler(String received) {
+    protected void inputhandler(String received) {
     	System.out.println(received);
     	if (received.startsWith("OPEN")) {
     		st = new StringTokenizer(received,";");
