@@ -8,9 +8,9 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
 
     private int staryX;
     private int staryY;
-    private int ruch = 0;
-    private boolean czyostatni = false;
-    private int mojkolor;
+    protected int ruch = 0;
+    protected boolean czyostatni = false;
+    protected int mojkolor;
     int liczbaPoprawnieZajetychPol;
     public ArrayList<Integer> zmiany = new ArrayList<Integer>();
 
@@ -131,7 +131,7 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
         zmiany.add(sterownik.listaPodswietlanychPol.get(0).getY());
         
         
-        bot.pionki.set(i, new ParaWspolrzednych(sterownik.listaPodswietlanychPol.get(1).getX(), sterownik.listaPodswietlanychPol.get(1).getY()));
+        bot.pionki.set(i, new ParaWspolrzednych(sterownik.listaPodswietlanychPol.get(0).getX(), sterownik.listaPodswietlanychPol.get(0).getY()));
         sterownik.wyczysc();
 
     }

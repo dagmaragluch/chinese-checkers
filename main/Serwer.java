@@ -12,7 +12,7 @@ public class Serwer {
     private final static int port = 12372;
     static ArrayList<Player> players = new ArrayList<>();
     ServerSocket listener;
-    private volatile boolean isrunning = false;
+    protected volatile boolean isrunning = false;
 
     static Integer iluGraczy = 1;
     static int currentPlayer = 0;
@@ -155,7 +155,7 @@ class Player extends Thread {
     }
 
 
-    private void inputhandler(String received) {
+    protected void inputhandler(String received) {
     	System.out.println(received);
     	if (received.startsWith("OPEN")) {
     		st = new StringTokenizer(received,";");

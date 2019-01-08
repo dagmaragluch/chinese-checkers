@@ -22,27 +22,27 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class Client extends Application{
-	
-	private static DataInputStream dis;
-    private static DataOutputStream dos;    
+
+	protected static DataInputStream dis;
+	protected static DataOutputStream dos;
     private final static int ServerPort = 12372;
-    private Socket s;
+	protected Socket s;
     private Thread readMessage;
-    private String info;
+	protected String info;
     private StringTokenizer st;
     
     public Gra widok;
-    private Integer mojkolor;
+	protected Integer mojkolor;
     public static Integer czyjaTura = 0;
-    private Integer ilegraczy, ilebotow = 0;
+	protected Integer ilegraczy, ilebotow = 0;
     public final int[] stany = {2, 3, 4, 6};
 
     
     static Stage stage;
 	private Scene start, gra;
 	private GridPane siatka;
-	private Label ktoja = new Label();
-	private Label jakatura = new Label();
+	protected Label ktoja = new Label();
+	protected Label jakatura = new Label();
 	private StringProperty tura = new SimpleStringProperty();
 	private HBox dane;
 	
@@ -258,8 +258,8 @@ public class Client extends Application{
 
 		}
 	}
-	
-	private boolean mojatura() {
+
+	protected boolean mojatura() {
 		if(czyjaTura == mojkolor) return true;
 		return false;
 	}
@@ -287,7 +287,8 @@ public class Client extends Application{
 	
 	
 	public static void main(String[] args) throws Exception {
-		launch();
+		Client c = new Client();
+		c.launch();
 	}
 			  
 }

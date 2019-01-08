@@ -243,20 +243,6 @@ public class PoczatkoweUstawienia extends Plansza {
 
     }
 
-    public void wprowadzBoty(int b){
-        int i = listaGraczy.size();
-        int j = 0; //ile botow juz wstswiono
-
-        for(int a =0; a <listaGraczy.size(); a++){
-            System.out.println("kolor gracz "+ a +" = " + listaGraczy.get(a).getKolorGracza());
-        }
-
-        while(j<b){     //boty wstawimy jako ostatnich graczy
-            listaGraczy.get(i-1).setCzyBot(true);
-            i--;
-            j++;
-        }
-    }
     
     String getkolor(int kolor) {
 		switch (kolor) {
