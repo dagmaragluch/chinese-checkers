@@ -2,39 +2,49 @@ import java.io.*;
 
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.*;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class Client extends Application{
-
-	protected static DataInputStream dis;
-	protected static DataOutputStream dos;
+	
+	private static DataInputStream dis;
+    private static DataOutputStream dos;    
     private final static int ServerPort = 12372;
-    protected Socket s;
+    private Socket s;
     private Thread readMessage;
-    protected String info;
-	protected StringTokenizer st;
-    public Gra board;
-	protected Integer mojkolor;
+    private String info;
+    private StringTokenizer st;
+    
+    public Gra widok;
+    private Integer mojkolor;
     public static Integer czyjaTura = 0;
-	protected Integer ilegraczy, ilebotow = 0;
+    private Integer ilegraczy, ilebotow = 0;
+    public final int[] stany = {2, 3, 4, 6};
+
     
     static Stage stage;
 	private Scene start, gra;
-	private GridPane plan;
+	private GridPane siatka;
+	private Label ktoja = new Label();
+	private Label jakatura = new Label();
+	private StringProperty tura = new SimpleStringProperty();
+	private HBox dane;
 	
 	@Override
 	public void init(){
@@ -60,7 +70,6 @@ public class Client extends Application{
                 while (true) {
                     try {
                         info = dis.readUTF();
-                        System.out.println("Connected");
                     } catch (IOException e) {
                         try {
                         	e.printStackTrace();
@@ -84,20 +93,22 @@ public class Client extends Application{
         }
     }
     
+    
     public void inputhandler(){
-    	System.out.println(info);
     	if(info != null){
-			//System.out.println("info = " + info);
-			if(info.startsWith("START")){
-                st = new StringTokenizer(info,";");
+			
+    		if(info.startsWith("START")){
+                
+				st = new StringTokenizer(info,";");
                 st.nextToken();
                 mojkolor = Integer.parseInt(st.nextToken());
                 ilegraczy = Integer.parseInt(st.nextToken());
                 ilebotow = Integer.parseInt(st.nextToken());
-                System.out.println(mojkolor + "/" + ilegraczy);
+                
                 if(mojkolor == ilegraczy) send("TURA");
 			}
-			else if(info.startsWith("FULL")){
+			else if(info.startsWith("MAX")){
+				
 				System.out.println("Serwer pelny");
 				try {
 					s.close();
@@ -110,9 +121,17 @@ public class Client extends Application{
 				nowyruch(info);
 			}
 			else if (info.startsWith("TURA")) {
+				
 				st = new StringTokenizer(info,";");
                 st.nextToken();
                 czyjaTura = Integer.parseInt(st.nextToken());
+                Platform.runLater(new Runnable() {
+                    @Override public void run() {
+                        if (czyjaTura == mojkolor) tura.setValue("Twoja kolej");
+                        else tura.setValue("Tura gracza " + czyjaTura);
+                    }
+              });
+
 			}
 			else if (info.startsWith("BOT")) {
 				poruszboty();
@@ -121,16 +140,26 @@ public class Client extends Application{
     }
 
 
-	protected void poruszboty() {
+
+	public void nowyruch(String msg) { //odzwierciedlenie ruchu na planszy
+		st = new StringTokenizer(msg,";");
+        st.nextToken();
+        widok.sterownik.plansza.setZawartoscTablicyOdInt(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), 0);
+        widok.sterownik.plansza.setZawartoscTablicyOdInt(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+	}
+
+	private void poruszboty() { //wywo³anie ruchów wszystkich botów
 		for (int i=ilegraczy+1; i<=ilegraczy+ilebotow; i++) {
-			board.ruch_bota(i);
-			if (!board.zmiany.isEmpty()) {
-				send("RUCH;" + board.zmiany.get(0) + ";" + board.zmiany.get(1) + ";" + board.zmiany.get(2) + ";" + board.zmiany.get(3) + ";" + i);
-				board.zmiany.clear();
+			if(!widok.czy_wygral(i))
+				widok.ruch_bota(i);
+			if (widok.zmiany.size()==4) {
+				send("RUCH;" + widok.zmiany.get(0) + ";" + widok.zmiany.get(1) + ";" + widok.zmiany.get(2) + ";" + widok.zmiany.get(3) + ";" + i);
+				widok.zmiany.clear();
 			}
 		}
 		
 	}
+
 
 
 	@Override
@@ -141,12 +170,21 @@ public class Client extends Application{
 		//Zawartosc okna startowego
 		Label podajlg = new Label("Liczba graczy:");
 		Label podajlb = new Label("Liczba botow:");
-		ObservableList<Integer> liczbagr = FXCollections.observableArrayList(2,3,4,6);
-		ObservableList<Integer> liczbabot = FXCollections.observableArrayList(0,1,2,3,4,5);
-		ChoiceBox<Integer> liczbagraczy=new ChoiceBox<Integer>(liczbagr);
-		ChoiceBox<Integer> liczbabotow=new ChoiceBox<>(liczbabot);
-		liczbagraczy.getSelectionModel().select(0);
-		liczbabotow.getSelectionModel().select(0);
+		
+
+		ChoiceBox<Integer> liczbagraczy = new ChoiceBox<Integer>();
+		ChoiceBox<Integer> liczbabotow = new ChoiceBox<Integer>();
+		liczbagraczy.getItems().addAll(1, 2, 3, 4, 5, 6);
+		liczbagraczy.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+		      @Override
+		      public void changed(ObservableValue<? extends Number> wartosc, Number stara, Number nowa) {
+		    	  liczbabotow.getItems().clear();
+		    	  for(int i=0; i<stany.length; i++) {
+		    		  if (stany[i]-(int)nowa-1>=0) liczbabotow.getItems().add(stany[i]-(int)nowa-1);
+		    	  }
+		  		liczbabotow.getSelectionModel().select(0);
+		      }
+		});
 
 		Button dalej = new Button("Przejdz do gry");
 		dalej.setOnAction(e -> { //konstrukcja nowej gry i budowanie planszy
@@ -156,6 +194,7 @@ public class Client extends Application{
 			ilebotow = (int)liczbabotow.getValue();
 			zbudujplansze();
 	    	primaryStage.setScene(gra);
+	    	if(mojkolor == ilegraczy) send("TURA");
 		});
 
 		VBox wybor = new VBox(podajlg, liczbagraczy, podajlb, liczbabotow, dalej);
@@ -170,56 +209,37 @@ public class Client extends Application{
 		Button zakonczture = new Button("Zakoncz Ture");
 		zakonczture.setOnAction(e -> {
 			send("TURA");
-			board.nowatura();
+			widok.nowatura();
 		});
-		
-		plan = new GridPane();
+		siatka = new GridPane();
 
-		
 		BorderPane trybgry = new BorderPane();
 		trybgry.setPadding(new Insets(10,10,10,10));
-		trybgry.setCenter(plan);
-		trybgry.setAlignment(plan, Pos.CENTER);
-		trybgry.setBottom(zakonczture);
-		trybgry.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+		trybgry.setCenter(siatka);
+		trybgry.setAlignment(siatka, Pos.CENTER);
+		tura.setValue("Czekamy na graczy");
+		jakatura.textProperty().bind(tura);
+		dane = new HBox();
+		dane.getChildren().addAll(jakatura, zakonczture);
+		dane.setPadding(new Insets(3,3,3,180));
+		dane.setSpacing(10);
+		trybgry.setBottom(dane);
 
-		plan.setPadding(new Insets(10,20,10,20));
+		siatka.setPadding(new Insets(10,20,10,20));
 		gra = new Scene(trybgry, 610, 750);
+
 		
-		if(ilegraczy != null) {
+		//ustawienie okna
+		if(ilegraczy != null) { 
 			zbudujplansze();
 			primaryStage.setScene(gra);
 		}
-		else primaryStage.setScene(start);
+		else primaryStage.setScene(start); //ustawienie pierwszego gracza
 		
 		primaryStage.setResizable(false);
 		primaryStage.show();
 		
 		
-	}
-	
-	public void zbudujplansze() {
-		this.board = new Gra(ilegraczy+ilebotow, mojkolor);
-		for (int i = 0; i < 17; i++) {
-			for (int j = 0; j < 25; j++) {
-				ColumnConstraints column = new ColumnConstraints(22);
-				plan.getColumnConstraints().add(column);
-				try {
-					plan.add(board.betaSerwer.plansza.tablica[i][j], j, i, 1, 1);
-					board.betaSerwer.plansza.tablica[i][j].addEventHandler(MouseEvent.MOUSE_CLICKED, new MyEventHandler());
-				}
-				catch (NullPointerException n) {}
-			}
-			RowConstraints row = new RowConstraints(37);
-			plan.getRowConstraints().add(row);
-		}
-	}
-	
-	public void nowyruch(String msg) {
-		st = new StringTokenizer(msg,";");
-        st.nextToken();
-        board.betaSerwer.plansza.setZawartoscTablicyOdInt(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), 0);
-        board.betaSerwer.plansza.setZawartoscTablicyOdInt(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
 	}
 	
 	private class MyEventHandler implements EventHandler<Event>{ //co robi klikniecie NA POLE
@@ -228,26 +248,46 @@ public class Client extends Application{
 		public void handle(Event evt) {
 			if(mojatura()) {
 				Pole temp = (Pole)evt.getSource();
-				board.wykonaj_ruch(plan.getRowIndex(temp), plan.getColumnIndex(temp));
-				if (!board.zmiany.isEmpty()) {
-					send("RUCH;" + board.zmiany.get(0) + ";" + board.zmiany.get(1) + ";" + board.zmiany.get(2) + ";" + board.zmiany.get(3) + ";" + mojkolor);
-					board.zmiany.clear();
+				widok.wykonaj_ruch(siatka.getRowIndex(temp), siatka.getColumnIndex(temp));
+				if (!widok.zmiany.isEmpty()) {
+					send("RUCH;" + widok.zmiany.get(0) + ";" + widok.zmiany.get(1) + ";" + widok.zmiany.get(2) + ";" + widok.zmiany.get(3) + ";" + mojkolor);
+					widok.zmiany.clear();
 				}
-				if(board.czy_wygral(mojkolor))send("KONIEC");
+				if(widok.czy_wygral(mojkolor))send("KONIEC");
 			}
 
 		}
 	}
 	
-	protected boolean mojatura() {
-		System.out.println(czyjaTura + " " + mojkolor);
+	private boolean mojatura() {
 		if(czyjaTura == mojkolor) return true;
 		return false;
 	}
 	
+	
+	public void zbudujplansze() {
+		this.widok = new Gra(ilegraczy+ilebotow, mojkolor);
+		for (int i = 0; i < 17; i++) {
+			for (int j = 0; j < 25; j++) {
+				ColumnConstraints kolumna = new ColumnConstraints(22);
+				siatka.getColumnConstraints().add(kolumna);
+				try {
+					siatka.add(widok.sterownik.plansza.tablica[i][j], j, i, 1, 1);
+					widok.sterownik.plansza.tablica[i][j].addEventHandler(MouseEvent.MOUSE_CLICKED, new MyEventHandler());
+				}
+				catch (NullPointerException n) {}
+			}
+			RowConstraints rzad = new RowConstraints(37);
+			siatka.getRowConstraints().add(rzad);
+		}
+		
+		ktoja = new Label("Jestes " + widok.getkolor(mojkolor));		
+		dane.getChildren().add(ktoja);
+	}
+	
+	
 	public static void main(String[] args) throws Exception {
-		Client c = new Client();
-		c.launch();
+		launch();
 	}
 			  
 }

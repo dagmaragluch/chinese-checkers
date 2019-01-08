@@ -4,12 +4,12 @@ import java.util.Random;
 public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
 
     Random random = new Random();
-    Sterowanie betaSerwer = new Sterowanie();
+    Sterowanie sterownik = new Sterowanie();
 
     private int staryX;
     private int staryY;
-    protected int ruch = 0;
-    protected boolean czyostatni = false;
+    private int ruch = 0;
+    private boolean czyostatni = false;
     private int mojkolor;
     int liczbaPoprawnieZajetychPol;
     public ArrayList<Integer> zmiany = new ArrayList<Integer>();
@@ -17,7 +17,7 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
     Gra(int a, int mojkolor) {       //później przerobić na Gra(int a, int b, int kto) gdzie b = liczbaBoow
         ustawPionki(a);
         this.mojkolor = mojkolor;
-        this.betaSerwer.plansza = this;
+        this.sterownik.plansza = this;
         this.iluGraczy = a;
     }
 
@@ -33,21 +33,21 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
         if (!czyostatni) {
             if (ruch == 0) {
                 if (mojkolor == getZawartoscTablicy(x, y)) { //petla liczaca mozliwosci
-                    for (ParaWspolrzednych pw : betaSerwer.listaPodswietlanychPol) { //wymazanie podswietlen
-                        betaSerwer.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 0);
+                    for (ParaWspolrzednych pw : sterownik.listaPodswietlanychPol) { //wymazanie podswietlen
+                        sterownik.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 0);
                     }
-                    betaSerwer.wyczysc();
-                    betaSerwer.gdzie_mozna_przesunac(x, y); //dwa rodzaje ruchow sa dostepne
-                    betaSerwer.gdzie_mozna_przeskoczyc(x, y);
-                    for (ParaWspolrzednych pw : betaSerwer.listaPodswietlanychPol) { //podswietlanie pol
-                        betaSerwer.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 8);
+                    sterownik.wyczysc();
+                    sterownik.gdzie_mozna_przesunac(x, y); //dwa rodzaje ruchow sa dostepne
+                    sterownik.gdzie_mozna_przeskoczyc(x, y);
+                    for (ParaWspolrzednych pw : sterownik.listaPodswietlanychPol) { //podswietlanie pol
+                        sterownik.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 8);
                     }
                     staryX = x; //zapamietujemy wspolrzedne (poczatek pierwszego podruchu)
                     staryY = y;
                     return;
                 }
             }
-            for (ParaWspolrzednych para : betaSerwer.listaPodswietlanychPol2) {
+            for (ParaWspolrzednych para : sterownik.listaPodswietlanychPol2) {
                 if (x == para.getX() && y == para.getY()) { //sprawdzamy, czy wybrano przeskok
 
                 	zmiany.add(staryX);
@@ -55,16 +55,16 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
                 	zmiany.add(x);
                 	zmiany.add(y);
 
-                    for (ParaWspolrzednych pw : betaSerwer.listaPodswietlanychPol) { //wymazanie pod�wietle�
-                        betaSerwer.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 0);
+                    for (ParaWspolrzednych pw : sterownik.listaPodswietlanychPol) { //wymazanie pod�wietle�
+                        sterownik.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 0);
                     }
-                    betaSerwer.wyczysc();
+                    sterownik.wyczysc();
 
-                    betaSerwer.gdzie_mozna_przeskoczyc(x, y);
-                    betaSerwer.listaPodswietlanychPol2.add(new ParaWspolrzednych(staryX, staryY));
-                    betaSerwer.listaPodswietlanychPol.add(new ParaWspolrzednych(staryX, staryY));
-                    for (ParaWspolrzednych pw : betaSerwer.listaPodswietlanychPol) { //nowe pod�wietlanie
-                        betaSerwer.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 8);
+                    sterownik.gdzie_mozna_przeskoczyc(x, y);
+                    sterownik.listaPodswietlanychPol2.add(new ParaWspolrzednych(staryX, staryY));
+                    sterownik.listaPodswietlanychPol.add(new ParaWspolrzednych(staryX, staryY));
+                    for (ParaWspolrzednych pw : sterownik.listaPodswietlanychPol) { //nowe pod�wietlanie
+                        sterownik.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 8);
                     }
 
                     staryX = x; //mozemy dalej sie ruszac, wiec zapisujemy nowe wspolrzedne
@@ -73,7 +73,7 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
                     return;
                 }
             }
-            for (ParaWspolrzednych para : betaSerwer.listaPodswietlanychPol1) {
+            for (ParaWspolrzednych para : sterownik.listaPodswietlanychPol1) {
                 if (x == para.getX() && y == para.getY()) { //jezli wybrano pojedynczy ruch
                 	
                 	zmiany.add(staryX);
@@ -82,10 +82,10 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
                 	zmiany.add(y);
 
 
-                    for (ParaWspolrzednych pw : betaSerwer.listaPodswietlanychPol) { //wymazujemy podswietlenia i nie szukamy dalszych ruchow
-                        betaSerwer.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 0);
+                    for (ParaWspolrzednych pw : sterownik.listaPodswietlanychPol) { //wymazujemy podswietlenia i nie szukamy dalszych ruchow
+                        sterownik.plansza.setZawartoscTablicyOdInt(pw.getX(), pw.getY(), 0);
                     }
-                    betaSerwer.wyczysc();
+                    sterownik.wyczysc();
                     ruch++;
                     czyostatni=true;
                     return;
@@ -117,22 +117,22 @@ public class Gra extends PoczatkoweUstawienia implements MetodyDoGry {
 
         do {             //wybor pionka tak dlugo az tym pionkiem mozna sie ruszyc
             i = random.nextInt(10);
-            betaSerwer.wyczysc();
-            betaSerwer.gdzie_mozna_przeskoczyc(bot.pionki.get(i).getX(), bot.pionki.get(i).getY());
-            betaSerwer.gdzie_mozna_przesunac(bot.pionki.get(i).getX(), bot.pionki.get(i).getY());
+            sterownik.wyczysc();
+            sterownik.gdzie_mozna_przesunac(bot.pionki.get(i).getX(), bot.pionki.get(i).getY());
+            sterownik.gdzie_mozna_przeskoczyc(bot.pionki.get(i).getX(), bot.pionki.get(i).getY());
         }
-        while (betaSerwer.listaPodswietlanychPol.isEmpty());
+        while (sterownik.listaPodswietlanychPol.isEmpty());
 
         //implementacja jednego, domyslnego podruchu bota
 
         zmiany.add(bot.pionki.get(i).getX());
         zmiany.add(bot.pionki.get(i).getY());
-        zmiany.add(betaSerwer.listaPodswietlanychPol.get(0).getX());
-        zmiany.add(betaSerwer.listaPodswietlanychPol.get(0).getY());
+        zmiany.add(sterownik.listaPodswietlanychPol.get(0).getX());
+        zmiany.add(sterownik.listaPodswietlanychPol.get(0).getY());
         
         
-        bot.pionki.set(i, new ParaWspolrzednych(betaSerwer.listaPodswietlanychPol.get(0).getX(), betaSerwer.listaPodswietlanychPol.get(0).getY()));
-
+        bot.pionki.set(i, new ParaWspolrzednych(sterownik.listaPodswietlanychPol.get(1).getX(), sterownik.listaPodswietlanychPol.get(1).getY()));
+        sterownik.wyczysc();
 
     }
 

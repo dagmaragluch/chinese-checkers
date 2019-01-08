@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class PoczatkoweUstawienia extends Plansza {
 
     protected int iluGraczy;
+    protected int ileBotow;
 
     protected Gracz gracz1;
     protected Gracz gracz2;
@@ -241,6 +242,36 @@ public class PoczatkoweUstawienia extends Plansza {
         }
 
     }
+
+    public void wprowadzBoty(int b){
+        int i = listaGraczy.size();
+        int j = 0; //ile botow juz wstswiono
+
+        for(int a =0; a <listaGraczy.size(); a++){
+            System.out.println("kolor gracz "+ a +" = " + listaGraczy.get(a).getKolorGracza());
+        }
+
+        while(j<b){     //boty wstawimy jako ostatnich graczy
+            listaGraczy.get(i-1).setCzyBot(true);
+            i--;
+            j++;
+        }
+    }
+    
+    String getkolor(int kolor) {
+		switch (kolor) {
+		case 0: return "Bia³y";
+		case 1: return "Zielony";
+		case 2: return "Niebieski";
+		case 3: return "Fioletowy";
+		case 4: return "Czerwony";
+		case 5: return "Pomarañczowy";
+		case 6: return "Br¹zowy";
+		case 8: return null;
+		}
+		return null;
+	}
+
 
 }
 
